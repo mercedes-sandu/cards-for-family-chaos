@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Imaginarium.Ontology;
+using TMPro;
 using UnityEngine;
 using Utility;
 using Random = UnityEngine.Random;
@@ -14,6 +15,8 @@ namespace GameSetup
 
         [SerializeField] private float minGraphDensity;
         [SerializeField] private float maxGraphDensity;
+
+        [SerializeField] private TextMeshProUGUI familyNameText;
         
         // character generation
         private static Ontology _ontology;
@@ -50,6 +53,8 @@ namespace GameSetup
         /// </summary>
         private void FamilyPreprocessing()
         {
+            familyNameText.text = "";
+            
             // set family sizes
             _familyOneSize = Random.Range(minFamilySize, maxFamilySize);
             _familyTwoSize = Random.Range(minFamilySize, maxFamilySize);
@@ -83,7 +88,7 @@ namespace GameSetup
         }
 
         /// <summary>
-        /// Shows the graph corresponding to the selected family and prints the edges.
+        /// Shows the graph corresponding to the selected family, prints the edges, and changes the UI appropriately.
         /// </summary>
         /// <param name="index">1 if family one, 2 if family two, 3 if combined family.</param>
         public void ShowGraph(int index)
@@ -93,14 +98,17 @@ namespace GameSetup
                 case 1:
                     _familyOne.ShowGraph();
                     _familyOne.PrintEdges();
+                    familyNameText.text = $"{_familyOneSurname} Family";
                     break;
                 case 2:
                     _familyTwo.ShowGraph();
                     _familyTwo.PrintEdges();
+                    familyNameText.text = $"{_familyTwoSurname} Family";
                     break;
                 case 3:
                     _combinedFamily.ShowGraph();
                     _combinedFamily.PrintEdges();
+                    familyNameText.text = $"{_familyOneSurname} and {_familyTwoSurname} Families";
                     break;
             }
         }
