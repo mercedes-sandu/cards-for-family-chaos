@@ -63,9 +63,9 @@ namespace GameSetup
             List<string> surnames = 
                 Resources.Load<TextAsset>("Imaginarium/surnames").text.Split('\n').ToList();
             int familyOneSurnameIndex = Random.Range(0, surnames.Count);
-            _familyOneSurname = surnames[familyOneSurnameIndex];
+            _familyOneSurname = surnames[familyOneSurnameIndex].Replace("\r", "");
             surnames.RemoveAt(familyOneSurnameIndex);
-            _familyTwoSurname = surnames[Random.Range(0, surnames.Count)];
+            _familyTwoSurname = surnames[Random.Range(0, surnames.Count)].Replace("\r", "");
         }
 
         // todo: change void to ?
