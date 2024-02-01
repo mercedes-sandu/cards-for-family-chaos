@@ -1,0 +1,47 @@
+﻿{
+  "0": {
+    "CardType": 0,
+    "NumPeopleInvolved": 1,
+    "Scenario": "Person [[X]] approaches you to say ||Y||.",
+    "Choices": [
+      {
+        "ChoiceText": "Go with them.",
+        "CompatibilityModifier": 5,
+        "StatModifiers": [
+          {
+            "Stat": "reputation",
+            "Value": -2
+          },
+          {
+            "Stat": "money",
+            "Value": 4
+          },
+          {
+            "Stat": "health",
+            "Value": -10
+          }
+        ],
+        "EdgeModifiers": []
+      },
+      {
+        "ChoiceText": "Don't go with them.",
+        "CompatibilityModifier": -5,
+        "StatModifiers": [
+          {
+            "Stat": "reputation",
+            "Value": 0
+          },
+          {
+            "Stat": "money",
+            "Value": -4
+          },
+          {
+            "Stat": "health",
+            "Value": 10
+          }
+        ],
+        "EdgeModifiers": []
+      }
+    ]
+  }
+}

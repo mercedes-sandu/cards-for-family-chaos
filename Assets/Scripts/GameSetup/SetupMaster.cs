@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Imaginarium.Driver;
 using Imaginarium.Ontology;
 using TMPro;
 using UnityEngine;
@@ -35,17 +36,19 @@ namespace GameSetup
         /// </summary>
         private void Awake()
         {
+            DataFiles.DataHome = $"{Application.persistentDataPath}";
+            
             FamilyPreprocessing();
             
             _familyOne = new Family(_familyOneSize, _familyOneSurname, minGraphDensity, maxGraphDensity);
             _familyTwo = new Family(_familyTwoSize, _familyTwoSurname, minGraphDensity, maxGraphDensity);
             _combinedFamily = new Family(_familyOneSize + _familyTwoSize, _familyOne, _familyTwo);
+            
+            FileCopier.CheckForCopies();
+            
+            _ontology = new Ontology("Characters", $"{Application.persistentDataPath}");
 
-            // _ontology = new Ontology("Characters", $"{Application.persistentDataPath}");
-
-            // FileCopier.CheckForCopies();
-
-            // MakeCharacters();
+            MakeCharacters();
         }
 
         /// <summary>

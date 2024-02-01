@@ -59,10 +59,15 @@ namespace GameSetup
             _size = size;
             _surname = $"{familyOne._surname} and {familyTwo._surname}";
             
-            _graphViz = new GraphViz<int>();
+            _graphViz = new GraphViz<int>(); // change to pair of int and family number
             
             // todo: pick some number of edges to add between nodes in family one and nodes in family two
             // should i do this with catsat ?? ^^
+            
+            // separate set of edge predicates linking the two graphs
+            // separate cardinality constraint on those edge predicates
+            
+            // to address relationship types, use generation numbers
             
             _edges = new Dictionary<ushort, EdgeProposition>();
             foreach (var (index, edge) in familyOne._edges)

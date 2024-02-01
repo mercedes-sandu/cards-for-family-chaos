@@ -4,7 +4,7 @@
 characters have an age between 18 and 70.
 
 // alignment
-characters are lawful good, neutral good, chaotic good, lawful neutral, neutral, chaotic neutral, lawful evil, neutral evil, or chaotic evil.
+characters are lawful good, neutral good, chaotic good, lawful neutral, true neutral, chaotic neutral, lawful evil, neutral evil, or chaotic evil.
 
 // names
 characters have a first name from first names.
