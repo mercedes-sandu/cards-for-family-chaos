@@ -17,14 +17,16 @@ namespace GameSetup
         private Dictionary<ushort, EdgeProposition> _edges;
         private Solution _solution;
         private GraphViz<int> _graphViz;
-        
+
         /// <summary>
         /// Initializes a family based off of a given number of members and surname. Creates a graph that is passed to
         /// CatSAT to generate a solution. Creates a GraphViz object to visualize the graph.
         /// </summary>
         /// <param name="size">The number of members in the family (the number of nodes in the graph).</param>
         /// <param name="surname">The surname of the family.</param>
-        public Family(int size, string surname)
+        /// <param name="minDensity"></param>
+        /// <param name="maxDensity"></param>
+        public Family(int size, string surname, float minDensity, float maxDensity)
         {
             _size = size;
             _surname = surname;
@@ -32,7 +34,7 @@ namespace GameSetup
             _problem = new Problem();
             _graph = new Graph(_problem, _size);
             _graph.Connected();
-            // todo: add more constraints
+            _graph.Density(minDensity, maxDensity);
             _edges = _graph.SATVariableToEdge;
             _solution = _problem.Solve();
             
@@ -58,6 +60,9 @@ namespace GameSetup
             _surname = $"{familyOne._surname} and {familyTwo._surname}";
             
             _graphViz = new GraphViz<int>();
+            
+            // todo: pick some number of edges to add between nodes in family one and nodes in family two
+            // should i do this with catsat ?? ^^
             
             _edges = new Dictionary<ushort, EdgeProposition>();
             foreach (var (index, edge) in familyOne._edges)

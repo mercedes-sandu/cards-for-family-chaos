@@ -11,6 +11,9 @@ namespace GameSetup
     {
         [SerializeField] private int minFamilySize;
         [SerializeField] private int maxFamilySize;
+
+        [SerializeField] private float minGraphDensity;
+        [SerializeField] private float maxGraphDensity;
         
         // character generation
         private static Ontology _ontology;
@@ -31,8 +34,8 @@ namespace GameSetup
         {
             FamilyPreprocessing();
             
-            _familyOne = new Family(_familyOneSize, _familyOneSurname);
-            _familyTwo = new Family(_familyTwoSize, _familyTwoSurname);
+            _familyOne = new Family(_familyOneSize, _familyOneSurname, minGraphDensity, maxGraphDensity);
+            _familyTwo = new Family(_familyTwoSize, _familyTwoSurname, minGraphDensity, maxGraphDensity);
             _combinedFamily = new Family(_familyOneSize + _familyTwoSize, _familyOne, _familyTwo);
 
             // _ontology = new Ontology("Characters", $"{Application.persistentDataPath}");
