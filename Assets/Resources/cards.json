@@ -1,5 +1,6 @@
 ﻿{
   "0": {
+    "ID": "0",
     "CardType": 0,
     "NumPeopleInvolved": 1,
     "Scenario": "Person [[X]] approaches you to say ||Y||.",
@@ -28,15 +29,15 @@
         "CompatibilityModifier": -5,
         "StatModifiers": [
           {
-            "Stat": "reputation",
+            "Stat": 0,
             "Value": 0
           },
           {
-            "Stat": "money",
+            "Stat": 1,
             "Value": -4
           },
           {
-            "Stat": "health",
+            "Stat": 2,
             "Value": 10
           }
         ],

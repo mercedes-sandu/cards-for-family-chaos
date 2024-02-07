@@ -8,7 +8,13 @@ namespace Utility
         private static readonly string PersistentDataPath = $"{Application.persistentDataPath}";
         private const string GenFileIndicator = "// gen";
         private const string CsvFileIndicator = "// csv";
+        private const string ImaginariumFolder = "Imaginarium";
         private const string InflectionsFolder = "Inflections";
+        private const string ResourcesCardsJsonPath = "cards";
+        private const string CardsJson = "cards.json";
+        private const string GenExtension = ".gen";
+        private const string CsvExtension = ".csv";
+        private const string TxtExtension = ".txt";
         
         /// <summary>
         /// Checks for the existence of Imaginarium files in the player's local data. If they don't exist, they are
@@ -16,12 +22,13 @@ namespace Utility
         /// </summary>
         public static void CheckForCopies()
         {
-            TextAsset[] allImaginariumFiles = Resources.LoadAll<TextAsset>("Imaginarium");
-            TextAsset[] allInflectionsFiles = Resources.LoadAll<TextAsset>("Inflections");
+            TextAsset[] allImaginariumFiles = Resources.LoadAll<TextAsset>(ImaginariumFolder);
+            TextAsset[] allInflectionsFiles = Resources.LoadAll<TextAsset>(InflectionsFolder);
+            TextAsset cardsJson = Resources.Load<TextAsset>(ResourcesCardsJsonPath);
             
             foreach (var file in allImaginariumFiles)
             {
-                string fileName = $"{file.name}{(file.text.Contains(GenFileIndicator) ? ".gen" : ".txt")}";
+                string fileName = $"{file.name}{(file.text.Contains(GenFileIndicator) ? GenExtension : TxtExtension)}";
                 Debug.Log($"Checking for copy of {fileName}.");
                 string filePath = Path.Combine(PersistentDataPath, fileName);
                 if (!File.Exists(filePath))
@@ -38,7 +45,7 @@ namespace Utility
             
             foreach (var file in allInflectionsFiles)
             {
-                string fileName = $"{file.name}{(file.text.Contains(CsvFileIndicator) ? ".csv" : ".txt")}";
+                string fileName = $"{file.name}{(file.text.Contains(CsvFileIndicator) ? CsvExtension : TxtExtension)}";
                 Debug.Log($"Checking for copy of {fileName}.");
                 string filePath = Path.Combine(PersistentDataPath, InflectionsFolder, fileName);
                 if (!File.Exists(filePath))
@@ -47,9 +54,12 @@ namespace Utility
                 }
                 else
                 {
-                    CheckFileDiff(file, File.ReadAllText(filePath), Path.Combine(InflectionsFolder, fileName));
+                    CheckFileDiff(file, File.ReadAllText(filePath), 
+                        Path.Combine(InflectionsFolder, fileName));
                 }
             }
+            
+            MakeJson(cardsJson, CardsJson);
         }
 
         /// <summary>
@@ -65,6 +75,25 @@ namespace Utility
             if (newerFile.text.Equals(olderFileContents)) return;
             Debug.Log($"Found difference for {fileName}.");
             CopyFile(newerFile, fileName);
+        }
+
+        /// <summary>
+        /// Checks if the specified Json file exists in the player's local data. If it doesn't, it is copied from the
+        /// Resources folder. If it does, it is checked for differences from the version in the Resources folder.
+        /// </summary>
+        /// <param name="resourcesJson">The text in the Json from the Resources folder.</param>
+        /// <param name="fileName">The name of the Json file.</param>
+        private static void MakeJson(TextAsset resourcesJson, string fileName)
+        {
+            string filePath = Path.Combine(PersistentDataPath, fileName);
+            if (!File.Exists(filePath))
+            {
+                CopyFile(resourcesJson, fileName);
+            }
+            else
+            {
+                CheckFileDiff(resourcesJson, File.ReadAllText(filePath), fileName);
+            }
         }
         
         /// <summary>
@@ -84,7 +113,9 @@ namespace Utility
         /// <param name="fileName">The file's name.</param>
         private static void CopyFile(TextAsset file, string fileName)
         {
-            string fileText = fileName.Contains(".csv") ? file.text.Replace(CsvFileIndicator, "") : file.text;
+            string fileText = fileName.Contains(CsvExtension) 
+                ? file.text.Replace(CsvFileIndicator, "") 
+                : file.text;
             File.WriteAllText(Path.Combine(PersistentDataPath, fileName), fileText);
             Debug.Log($"Copied {fileName} to {PersistentDataPath}.");
         }

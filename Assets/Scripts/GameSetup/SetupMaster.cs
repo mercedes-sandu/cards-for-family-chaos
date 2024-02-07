@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using CCSS;
 using Imaginarium.Driver;
 using Imaginarium.Ontology;
 using TMPro;
@@ -32,7 +33,7 @@ namespace GameSetup
         private Family _combinedFamily;
     
         /// <summary>
-        /// Initializes the families.
+        /// Initializes the families, loads all possible cards. 
         /// </summary>
         private void Awake()
         {
@@ -49,6 +50,8 @@ namespace GameSetup
             _ontology = new Ontology("Characters", $"{Application.persistentDataPath}");
 
             MakeCharacters();
+            
+            CardLoader.LoadAllCards();
         }
 
         /// <summary>
