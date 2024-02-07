@@ -52,6 +52,8 @@ namespace GameSetup
             MakeCharacters();
             
             CardLoader.LoadAllCards();
+            
+            CardLoader.AllCards.ForEach(card => Debug.Log(card.ToString()));
         }
 
         /// <summary>
