@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
+using UnityEngine;
 using Utility;
 using Application = UnityEngine.Device.Application;
 
@@ -28,6 +29,14 @@ namespace CCSS
                 JsonConvert.DeserializeObject<Dictionary<string, Card>>(
                     File.ReadAllText(Path.Combine(PersistentDataPath, PathToCardsJson)));
             FindAllCards();
+        }
+
+        /// <summary>
+        /// Prints all cards to the console.
+        /// </summary>
+        public static void PrintAllCards()
+        {
+            AllCards.ForEach(card => Debug.Log(card.ToString()));
         }
         
         /// <summary>

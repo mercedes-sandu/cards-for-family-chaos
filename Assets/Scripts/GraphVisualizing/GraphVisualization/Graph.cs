@@ -28,12 +28,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using GraphVisualizing.GraphVisualization;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-namespace GraphVisualization
+namespace GraphVisualizing.GraphVisualization
 {
     // using static GUIManager; // used for showing the tilemap when clearing a graph
 

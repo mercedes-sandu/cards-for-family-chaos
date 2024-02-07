@@ -6,6 +6,21 @@ characters have an age between 18 and 70.
 // alignment
 characters are lawful good, neutral good, chaotic good, lawful neutral, true neutral, chaotic neutral, lawful evil, neutral evil, or chaotic evil.
 
+// personality traits
+characters are any two of active, adventurous, affectionate, alert, ambitious, bold, bright, brave, calm, cheerful, clever, confident, cool, cooperative, courageous, courteous, curious, daring, dependable, determined, eager, easygoing, energetic, excited, expert, faithful, fair, friendly, fun, funny, gentle, generous, good, graceful, grateful, groovy, happy, helpful, honest, honorable, hopeful, humorous, intelligent, interesting, jolly, joyful, joyous, kind, lively, loving, loyal, mature, mysterious, nice, noble, nurturing, obedient, original, outgoing, peaceful, pleasant, polite, popular, powerful, quick, quiet, quirky, rational, reliable, responsible, sensational, sensible, serious, skillful, smart, thankful, thoughtful, trustworthy, understanding, useful, victorious, virtuous, warm, wordy, or youthful.
+
+// occupation
+
+// likes
+
+// dislikes
+
 // names
-characters have a first name from first names.
+characters are feminine-named, masculine-named, or neutral-named.
+feminine-named characters have a first name from feminine first names.
+masculine-named characters have a first name from masculine first names.
+neutral-named characters have a first name from gender neutral first names.
 characters are identified as "[first name]".
+do not mention being feminine-named.
+do not mention being masculine-named.
+do not mention being neutral-named.

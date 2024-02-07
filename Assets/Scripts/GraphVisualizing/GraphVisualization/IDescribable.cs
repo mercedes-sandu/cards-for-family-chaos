@@ -1,4 +1,4 @@
-﻿namespace GraphVisualization
+﻿namespace GraphVisualizing.GraphVisualization
 {
     public interface IDescribable
     {

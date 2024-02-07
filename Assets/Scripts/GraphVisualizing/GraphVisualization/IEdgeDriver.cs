@@ -25,9 +25,7 @@
 
 #endregion
 
-using GraphVisualizing.GraphVisualization;
-
-namespace GraphVisualization
+namespace GraphVisualizing.GraphVisualization
 {
     /// <summary>
     /// Interface for components that fill a Graph visualization on demand.

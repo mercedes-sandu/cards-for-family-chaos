@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
+using CatSAT;
 using CCSS;
 using Imaginarium.Driver;
+using Imaginarium.Generator;
 using Imaginarium.Ontology;
 using TMPro;
 using UnityEngine;
@@ -12,6 +14,10 @@ namespace GameSetup
 {
     public class SetupMaster : MonoBehaviour
     {
+        // character generation
+        public static Ontology Ontology;
+        
+        // variables for family generation
         [SerializeField] private int minFamilySize;
         [SerializeField] private int maxFamilySize;
 
@@ -19,9 +25,6 @@ namespace GameSetup
         [SerializeField] private float maxGraphDensity;
 
         [SerializeField] private TextMeshProUGUI familyNameText;
-        
-        // character generation
-        private static Ontology _ontology;
    
         // graph generation
         private int _familyOneSize;
@@ -38,6 +41,7 @@ namespace GameSetup
         private void Awake()
         {
             DataFiles.DataHome = $"{Application.persistentDataPath}";
+            Ontology = new Ontology("Characters", $"{Application.persistentDataPath}");
             
             FamilyPreprocessing();
             
@@ -46,14 +50,12 @@ namespace GameSetup
             _combinedFamily = new Family(_familyOneSize + _familyTwoSize, _familyOne, _familyTwo);
             
             FileCopier.CheckForCopies();
-            
-            _ontology = new Ontology("Characters", $"{Application.persistentDataPath}");
 
-            MakeCharacters();
+            CreateAllCharacters();
             
             CardLoader.LoadAllCards();
             
-            CardLoader.AllCards.ForEach(card => Debug.Log(card.ToString()));
+            // CardLoader.PrintAllCards();
         }
 
         /// <summary>
@@ -76,23 +78,27 @@ namespace GameSetup
             _familyTwoSurname = surnames[Random.Range(0, surnames.Count)].Replace("\r", "");
         }
 
-        // todo: change void to ?
         /// <summary>
-        /// 
+        /// Creates the characters for the two families, calling MakeNumCharacters.
         /// </summary>
-        public void MakeCharacters()
+        private void CreateAllCharacters()
         {
-            var character = _ontology.CommonNoun("character");
-            var invention = character.MakeGenerator(_familyOneSize + _familyTwoSize).Generate();
+            _familyOne.SetCharacters(MakeNumCharacters(_familyOneSize));
+            _familyTwo.SetCharacters(MakeNumCharacters(_familyTwoSize));
+            _combinedFamily.SetCharacters(_familyOne, _familyTwo);
+        }
 
-            var print = "";
+        /// <summary>
+        /// Makes the specified number of characters using Imaginarium.
+        /// </summary>
+        /// <param name="numCharacters">The number of characters to generate.</param>
+        /// <returns>The invention of characters generated.</returns>
+        private (Solution, List<PossibleIndividual>) MakeNumCharacters(int numCharacters)
+        {
+            CommonNoun character = Ontology.CommonNoun("character");
+            Invention invention = character.MakeGenerator(numCharacters).Generate();
             
-            foreach (var c in invention.PossibleIndividuals)
-            {
-                print += c.Name + "\n";
-            }
-            
-            Debug.Log(print);
+            return (invention.Model, invention.PossibleIndividuals);
         }
 
         /// <summary>

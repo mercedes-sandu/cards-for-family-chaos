@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using GraphVisualization;
 using GraphVisualizing.GraphVisualization;
 using GraphVisualizing.Utilities;
 using UnityEngine;

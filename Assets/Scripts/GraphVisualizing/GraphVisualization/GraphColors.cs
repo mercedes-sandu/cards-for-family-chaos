@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace GraphVisualization
+namespace GraphVisualizing.GraphVisualization
 {
     public static class GraphColors
     {

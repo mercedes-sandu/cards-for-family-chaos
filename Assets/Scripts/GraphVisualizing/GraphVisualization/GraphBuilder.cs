@@ -25,9 +25,7 @@
 
 #endregion
 
-using GraphVisualizing.GraphVisualization;
-
-namespace GraphVisualization
+namespace GraphVisualizing.GraphVisualization
 {
     /// <summary>
     /// Strongly typed wrapper for Graph.AddNode and Graph.AddEdge.

@@ -3,6 +3,8 @@ using System.Linq;
 using CatSAT;
 using CatSAT.SAT;
 using GraphVisualizing;
+using Imaginarium.Generator;
+using Imaginarium.Ontology;
 using UnityEngine;
 
 namespace GameSetup
@@ -16,8 +18,9 @@ namespace GameSetup
         private Graph _graph;
         private Dictionary<ushort, EdgeProposition> _edges;
         private Solution _solution;
-        private GraphViz<int> _graphViz;
-
+        private GraphViz<int> _graphViz; // todo: change to character
+        private Dictionary<int, Character> _characters;
+        
         /// <summary>
         /// Initializes a family based off of a given number of members and surname. Creates a graph that is passed to
         /// CatSAT to generate a solution. Creates a GraphViz object to visualize the graph.
@@ -37,6 +40,7 @@ namespace GameSetup
             _graph.Density(minDensity, maxDensity);
             _edges = _graph.SATVariableToEdge;
             _solution = _problem.Solve();
+            _characters = new Dictionary<int, Character>();
             
             _graphViz = new GraphViz<int>();
             // todo: is there a way to specify which node styles to use for which nodes?
@@ -58,6 +62,7 @@ namespace GameSetup
         {
             _size = size;
             _surname = $"{familyOne._surname} and {familyTwo._surname}";
+            _characters = new Dictionary<int, Character>();
             
             _graphViz = new GraphViz<int>(); // change to pair of int and family number
             
@@ -88,6 +93,41 @@ namespace GameSetup
                     _graphViz.AddEdge(new GraphViz<int>.Edge(edge.SourceVertex + familyOne._size,
                         edge.DestinationVertex + familyOne._size));
                 }
+            }
+        }
+
+        /// <summary>
+        /// Sets the characters in the family. Assigns them to the nodes in the graph.
+        /// </summary>
+        /// <param name="generatedCharacters">A pair (model, list of generated characters).</param>
+        public void SetCharacters((Solution, List<PossibleIndividual>) generatedCharacters)
+        {
+            foreach (PossibleIndividual character in generatedCharacters.Item2)
+            {
+                int index = _characters.Count;
+                _characters.Add(index, new Character(character, _surname, generatedCharacters.Item1));
+                // _graphViz.AddNode(index);
+            }
+            // foreach (int node in _graphViz.Nodes)
+            // {
+            //     _characterAssignments.Add(node, _characters[node]);
+            // }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="familyOne"></param>
+        /// <param name="familyTwo"></param>
+        public void SetCharacters(Family familyOne, Family familyTwo)
+        {
+            foreach (var (index, character) in familyOne._characters)
+            {
+                _characters.Add(index, character);
+            }
+            foreach (var (index, character) in familyTwo._characters)
+            {
+                _characters.Add(index + familyOne._size, character);
             }
         }
 

@@ -25,12 +25,11 @@
 
 #endregion
 
-using GraphVisualizing.GraphVisualization;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace GraphVisualization
+namespace GraphVisualizing.GraphVisualization
 {
     /// <summary>
     /// Component that drives individual nodes in a Graph visualization.
