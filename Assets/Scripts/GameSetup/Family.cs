@@ -18,9 +18,9 @@ namespace GameSetup
         private Graph _graph;
         private Dictionary<ushort, EdgeProposition> _edges;
         private Solution _solution;
-        private GraphViz<int> _graphViz; // todo: change to character
+        private GraphViz<Character> _graphViz; // todo: change to character
         private Dictionary<int, Character> _characters;
-        
+
         /// <summary>
         /// Initializes a family based off of a given number of members and surname. Creates a graph that is passed to
         /// CatSAT to generate a solution. Creates a GraphViz object to visualize the graph.
@@ -33,7 +33,7 @@ namespace GameSetup
         {
             _size = size;
             _surname = surname;
-            
+
             _problem = new Problem();
             _graph = new Graph(_problem, _size);
             _graph.Connected();
@@ -41,13 +41,8 @@ namespace GameSetup
             _edges = _graph.SATVariableToEdge;
             _solution = _problem.Solve();
             _characters = new Dictionary<int, Character>();
-            
-            _graphViz = new GraphViz<int>();
-            // todo: is there a way to specify which node styles to use for which nodes?
-            foreach (var (index, edge) in _edges.Where(edge => _solution[edge.Value]))
-            {
-                _graphViz.AddEdge(new GraphViz<int>.Edge(edge.SourceVertex, edge.DestinationVertex));
-            }
+
+            _graphViz = new GraphViz<Character>();
         }
 
         /// <summary>
@@ -63,36 +58,27 @@ namespace GameSetup
             _size = size;
             _surname = $"{familyOne._surname} and {familyTwo._surname}";
             _characters = new Dictionary<int, Character>();
-            
-            _graphViz = new GraphViz<int>(); // change to pair of int and family number
-            
+
+            _graphViz = new GraphViz<Character>(); // change to pair of int and family number
+
             // todo: pick some number of edges to add between nodes in family one and nodes in family two
             // should i do this with catsat ?? ^^
-            
+
             // separate set of edge predicates linking the two graphs
             // separate cardinality constraint on those edge predicates
-            
+
             // to address relationship types, use generation numbers
-            
+
             _edges = new Dictionary<ushort, EdgeProposition>();
             foreach (var (index, edge) in familyOne._edges)
             {
                 _edges.TryAdd(index, edge);
-                if (familyOne._solution[edge])
-                {
-                    _graphViz.AddEdge(new GraphViz<int>.Edge(edge.SourceVertex, edge.DestinationVertex));
-                }
             }
-            
-            ushort indexOffset = (ushort) familyOne._edges.Count;
+
+            ushort indexOffset = (ushort)familyOne._edges.Count;
             foreach (var (index, edge) in familyTwo._edges)
             {
-                _edges.TryAdd((ushort) (index + indexOffset), edge);
-                if (familyTwo._solution[edge])
-                {
-                    _graphViz.AddEdge(new GraphViz<int>.Edge(edge.SourceVertex + familyOne._size,
-                        edge.DestinationVertex + familyOne._size));
-                }
+                _edges.TryAdd((ushort)(index + indexOffset), edge);
             }
         }
 
@@ -106,12 +92,14 @@ namespace GameSetup
             {
                 int index = _characters.Count;
                 _characters.Add(index, new Character(character, _surname, generatedCharacters.Item1));
-                // _graphViz.AddNode(index);
             }
-            // foreach (int node in _graphViz.Nodes)
-            // {
-            //     _characterAssignments.Add(node, _characters[node]);
-            // }
+
+            // todo: is there a way to specify which node styles to use for which nodes?
+            foreach (var (index, edge) in _edges.Where(edge => _solution[edge.Value]))
+            {
+                _graphViz.AddEdge(new GraphViz<Character>.Edge(_characters[edge.SourceVertex],
+                    _characters[edge.DestinationVertex]));
+            }
         }
 
         /// <summary>
@@ -125,9 +113,24 @@ namespace GameSetup
             {
                 _characters.Add(index, character);
             }
+
             foreach (var (index, character) in familyTwo._characters)
             {
                 _characters.Add(index + familyOne._size, character);
+            }
+
+            var edges = _edges.Values.ToList();
+            
+            foreach (var edge in edges.GetRange(0, familyOne._size).Where(edge => familyOne._solution[edge]))
+            {
+                _graphViz.AddEdge(new GraphViz<Character>.Edge(_characters[edge.SourceVertex],
+                    _characters[edge.DestinationVertex]));
+            }
+            
+            foreach (var edge in edges.GetRange(familyOne._size, familyTwo._size).Where(edge => familyTwo._solution[edge]))
+            {
+                _graphViz.AddEdge(new GraphViz<Character>.Edge(_characters[edge.SourceVertex],
+                    _characters[edge.DestinationVertex]));
             }
         }
 

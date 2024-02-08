@@ -11,10 +11,10 @@ namespace CCSS
         public ICard.CardType CardType;
         public int NumPeopleInvolved;
         public string Scenario;
-        public Choices[] Choices;
+        public Choice[] Choices;
         
         [JsonConstructor]
-        public Card(Guid id, ICard.CardType cardType, int numPeopleInvolved, string scenario, Choices[] choices)
+        public Card(Guid id, ICard.CardType cardType, int numPeopleInvolved, string scenario, Choice[] choices)
         {
             ID = id;
             CardType = cardType;
@@ -29,15 +29,15 @@ namespace CCSS
         }
     }
 
-    public struct Choices
+    public struct Choice
     {
         public string ChoiceText;
         public int CompatibilityModifier;
-        public StatModifiers[] StatModifiers;
+        public StatModifier[] StatModifiers;
         public int[] EdgeModifiers;
         
         [JsonConstructor]
-        public Choices(string choiceText, int compatibilityModifier, StatModifiers[] statModifiers, int[] edgeModifiers)
+        public Choice(string choiceText, int compatibilityModifier, StatModifier[] statModifiers, int[] edgeModifiers)
         {
             ChoiceText = choiceText;
             CompatibilityModifier = compatibilityModifier;
@@ -51,13 +51,13 @@ namespace CCSS
         }
     }
 
-    public struct StatModifiers
+    public struct StatModifier
     {
         public Player.Stat Stat;
         public int Value;
         
         [JsonConstructor]
-        public StatModifiers(Player.Stat stat, int value)
+        public StatModifier(Player.Stat stat, int value)
         {
             Stat = stat;
             Value = value;

@@ -44,8 +44,12 @@ namespace GameSetup
             
             PersonalityTraits = adjectives.GetRange(1, 2).ToArray();
             
+            Occupation = properties[SetupMaster.Ontology.Property("occupation")].ValueString(solution)
+                .Split("=")[1];
+            
             Debug.Log(
-                $"{FirstName} {Surname}\nage: {Age}\nalignment: {Alignment}\npersonality traits: {string.Join(", ", PersonalityTraits)}");
+                $"{FirstName} {Surname}\nage: {Age}\nalignment: {Alignment}\npersonality traits: {string.Join(", ", PersonalityTraits)}\noccupation: {Occupation}");
+            
             // Debug.Log(string.Join(", ", properties.Select(property => $"{property.Key} : {property.Value}")));
         }
 
@@ -55,8 +59,9 @@ namespace GameSetup
         /// <returns>The character.</returns>
         public override string ToString()
         {
+            // todo: add likes and dislikes
             return
-                $"<b>{FirstName} {Surname}</b>\nAge: {Age}\nAlignment: {Alignment}\nOccupation: {Occupation}\nLikes: {string.Join(", ", Likes)}\nDislikes: {string.Join(", ", Dislikes)}";
+                $"<b>{FirstName} {Surname}</b>\nAge: {Age}\nAlignment: {Alignment}\nOccupation: {Occupation}";
         }
     }
 }

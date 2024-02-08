@@ -10,10 +10,15 @@ characters are lawful good, neutral good, chaotic good, lawful neutral, true neu
 characters are any two of active, adventurous, affectionate, alert, ambitious, bold, bright, brave, calm, cheerful, clever, confident, cool, cooperative, courageous, courteous, curious, daring, dependable, determined, eager, easygoing, energetic, excited, expert, faithful, fair, friendly, fun, funny, gentle, generous, good, graceful, grateful, groovy, happy, helpful, honest, honorable, hopeful, humorous, intelligent, interesting, jolly, joyful, joyous, kind, lively, loving, loyal, mature, mysterious, nice, noble, nurturing, obedient, original, outgoing, peaceful, pleasant, polite, popular, powerful, quick, quiet, quirky, rational, reliable, responsible, sensational, sensible, serious, skillful, smart, thankful, thoughtful, trustworthy, understanding, useful, victorious, virtuous, warm, wordy, or youthful.
 
 // occupation
+characters have an occupation from occupations.
+
+// hobby
 
 // likes
+// todo: split up likes by category, select one from each
 
 // dislikes
+// todo: split up dislikes by category, select one from each
 
 // names
 characters are feminine-named, masculine-named, or neutral-named.
