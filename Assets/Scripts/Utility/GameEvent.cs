@@ -5,11 +5,11 @@ namespace Utility
     public static class GameEvent
     {
         // delegates
-        
+
         /// <summary>
         /// 
         /// </summary>
-        public delegate void SelectCardHandler(); // todo: figure out how to pass current player/graph state to here
+        public delegate void CardSelectedHandler(Card card);
         
         /// <summary>
         /// 
@@ -26,7 +26,7 @@ namespace Utility
         /// <summary>
         /// 
         /// </summary>
-        public static event SelectCardHandler OnSelectCard;
+        public static event CardSelectedHandler OnCardSelected;
         
         /// <summary>
         /// 
@@ -43,7 +43,8 @@ namespace Utility
         /// <summary>
         /// 
         /// </summary>
-        public static void SelectCard() => OnSelectCard?.Invoke();
+        /// <param name="card"></param>
+        public static void CardSelected(Card card) => OnCardSelected?.Invoke(card);
         
         /// <summary>
         /// 

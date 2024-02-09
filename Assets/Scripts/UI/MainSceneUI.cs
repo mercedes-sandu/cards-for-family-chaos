@@ -1,5 +1,7 @@
 using System.Collections;
+using CCSS;
 using UnityEngine;
+using Utility;
 
 namespace UI
 {
@@ -15,6 +17,11 @@ namespace UI
         private Coroutine _cardResetCoroutine;
         private bool _cardResetCoroutineRunning = false;
 
+        private void Awake()
+        {
+            GameEvent.OnCardSelected += CardSelected;
+        }
+        
         private void Update()
         {
             if (!_mouseInCardArea) return;
@@ -44,6 +51,7 @@ namespace UI
             }
         }
 
+        // todo: fix weird rotation stuff
         public void RotateCardTowardMouse()
         {
             StopExistingCoroutines();
@@ -99,6 +107,28 @@ namespace UI
 
             _cardResetCoroutineRunning = false;
             cardRectTransform.rotation = Quaternion.identity;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void MakeChoice()
+        {
+            // todo: turn into on click event
+            if (!_mouseInCardArea) return;
+            Choice[] choices = GameManager.CurrentCard.Choices;
+            GameEvent.MakeChoice(choices[_mouseOnRightSide ? 1 : 0]);
+            GameManager.SelectNewCard();
+        }
+
+        private void CardSelected(Card card)
+        {
+            
+        }
+
+        private void OnDestroy()
+        {
+            GameEvent.OnCardSelected -= CardSelected;
         }
     }
 }

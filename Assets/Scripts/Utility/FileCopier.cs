@@ -71,6 +71,7 @@ namespace Utility
         /// <param name="fileName">The file's name that is being compared.</param>
         private static void CheckFileDiff(TextAsset newerFile, string olderFileContents, string fileName)
         {
+            // todo: doesn't check for diff with gen files. fix
             // todo: more efficient/better way to do this than Equals()?
             if (newerFile.text.Equals(olderFileContents)) return;
             Debug.Log($"Found difference for {fileName}.");

@@ -32,9 +32,12 @@ namespace GameSetup
             
             Surname = surname;
             
+            // todo: fix the other properties to read like this
             Dictionary<Property, Variable> properties = character.Individual.Properties;
-            Age = (int)Math.Round(float.Parse(properties[SetupMaster.Ontology.Property("age")].ValueString(solution)
-                .Split("=")[1]));
+            var ageProperty = properties[SetupMaster.Ontology.Property("age")];
+            Age = (int) Math.Round((float)solution[ageProperty]);
+            
+            // var thing = character[]
             
             List<string> adjectives =
                 character.AdjectivesDescribing().Select(adjective => adjective.ToString()).ToList();
@@ -65,3 +68,8 @@ namespace GameSetup
         }
     }
 }
+
+// silly scenario ideas from the group
+// baby in a basket
+// the other family ritually sacrificed your pet parrot
+// your mom joke

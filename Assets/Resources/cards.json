@@ -2,6 +2,52 @@
   "0": {
     "ID": "00000000-0000-0000-0000-000000000000",
     "CardType": 0,
+    "NumPeopleInvolved": 0,
+    "Scenario": "Dummy Card",
+    "Choices": [
+      {
+        "ChoiceText": "Choice One",
+        "CompatibilityModifier": 20,
+        "StatModifiers": [
+          {
+            "Stat": 0,
+            "Value": 20
+          },
+          {
+            "Stat": 1,
+            "Value": 10
+          },
+          {
+            "Stat": 2,
+            "Value": 0
+          }
+        ],
+        "EdgeModifiers": []
+      },
+        {
+            "ChoiceText": "Choice Two",
+            "CompatibilityModifier": -20,
+            "StatModifiers": [
+            {
+                "Stat": 0,
+                "Value": -20
+            },
+            {
+                "Stat": 1,
+                "Value": -10
+            },
+            {
+                "Stat": 2,
+                "Value": 0
+            }
+            ],
+            "EdgeModifiers": []
+        }
+    ]
+  },
+  "1": {
+    "ID": "00000000-0000-0000-0000-000000000001",
+    "CardType": 0,
     "NumPeopleInvolved": 1,
     "Scenario": "Person [[X]] approaches you to say ||Y||.",
     "Choices": [

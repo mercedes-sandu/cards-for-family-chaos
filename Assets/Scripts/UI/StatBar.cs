@@ -101,5 +101,14 @@ namespace UI
         }
         
         // todo: add hover function for stat bar icon to display stat name
+
+        /// <summary>
+        /// Unsubscribes from game events.
+        /// </summary>
+        private void OnDestroy()
+        {
+            GameEvent.OnChoiceHover -= UpdateDot;
+            GameEvent.OnChoiceMade -= UpdateBar;
+        }
     }
 }

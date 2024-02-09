@@ -56,6 +56,8 @@ namespace GameSetup
             CardLoader.LoadAllCards();
             
             // CardLoader.PrintAllCards();
+            
+            DontDestroyOnLoad(gameObject);
         }
 
         /// <summary>
