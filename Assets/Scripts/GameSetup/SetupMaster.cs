@@ -65,7 +65,7 @@ namespace GameSetup
         /// </summary>
         private void FamilyPreprocessing()
         {
-            familyNameText.text = "";
+            if (familyNameText) familyNameText.text = ""; // todo: remove if statement when integrated with main scene
             
             // set family sizes
             _familyOneSize = Random.Range(minFamilySize, maxFamilySize);

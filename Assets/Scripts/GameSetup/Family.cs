@@ -129,8 +129,8 @@ namespace GameSetup
             
             foreach (var edge in edges.GetRange(familyOne._size, familyTwo._size).Where(edge => familyTwo._solution[edge]))
             {
-                _graphViz.AddEdge(new GraphViz<Character>.Edge(_characters[edge.SourceVertex],
-                    _characters[edge.DestinationVertex]));
+                _graphViz.AddEdge(new GraphViz<Character>.Edge(_characters[edge.SourceVertex + familyOne._size],
+                    _characters[edge.DestinationVertex + familyOne._size]));
             }
         }
 

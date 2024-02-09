@@ -28,10 +28,11 @@ namespace Utility
         public static void SelectNewCard()
         {
             // todo: eventually incorporate picking cards by preconditions that are satisfied
+            // use function in CardLoader to determine which cards are available to the player
             CurrentCard = CardLoader.AllCards[_currentCardIndex];
             _currentCardIndex++;
             _cardsShown.Add(CurrentCard);
-            // game event call
+            GameEvent.CardSelected(CurrentCard);
         }
     }
 }

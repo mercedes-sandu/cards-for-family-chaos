@@ -9,6 +9,8 @@ namespace UI
     {
         [SerializeField] private RectTransform cardRectTransform;
 
+        // card rotation toward mouse
+        private static bool _canRotateCard = false;
         private const float MaxCardRotation = 10f;
         private bool _mouseOnRightSide = false;
         private bool _mouseInCardArea = false;
@@ -16,18 +18,26 @@ namespace UI
         private bool _cardRotationCoroutineRunning = false;
         private Coroutine _cardResetCoroutine;
         private bool _cardResetCoroutineRunning = false;
-
-        private void Awake()
-        {
-            GameEvent.OnCardSelected += CardSelected;
-        }
         
+        /// <summary>
+        /// 
+        /// </summary>
         private void Update()
         {
+            if (!_canRotateCard) return;
             if (!_mouseInCardArea) return;
             CheckSideFlip();
         }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="canRotateCard"></param>
+        public static void SetCanRotateCard(bool canRotateCard) => _canRotateCard = canRotateCard;
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void CheckSideFlip()
         {
             if ((!_mouseOnRightSide || !(Input.mousePosition.x < cardRectTransform.position.x)) &&
@@ -36,6 +46,9 @@ namespace UI
             _cardRotationCoroutine = StartCoroutine(RotateCardTowardMouseCoroutine());
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void StopExistingCoroutines()
         {
             if (_cardResetCoroutineRunning)
@@ -52,6 +65,9 @@ namespace UI
         }
 
         // todo: fix weird rotation stuff
+        /// <summary>
+        /// 
+        /// </summary>
         public void RotateCardTowardMouse()
         {
             StopExistingCoroutines();
@@ -59,6 +75,9 @@ namespace UI
             _mouseInCardArea = true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void ResetCardPosition()
         {
             _mouseInCardArea = false;
@@ -78,6 +97,10 @@ namespace UI
             _cardResetCoroutine = StartCoroutine(ResetCardPositionCoroutine());
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         private IEnumerator RotateCardTowardMouseCoroutine()
         {
             _cardRotationCoroutineRunning = true;
@@ -95,6 +118,10 @@ namespace UI
                 Quaternion.Euler(0f, 0f, _mouseOnRightSide ? MaxCardRotation : -MaxCardRotation);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         private IEnumerator ResetCardPositionCoroutine()
         {
             _cardResetCoroutineRunning = true;
@@ -108,7 +135,7 @@ namespace UI
             _cardResetCoroutineRunning = false;
             cardRectTransform.rotation = Quaternion.identity;
         }
-
+        
         /// <summary>
         /// 
         /// </summary>
@@ -119,16 +146,6 @@ namespace UI
             Choice[] choices = GameManager.CurrentCard.Choices;
             GameEvent.MakeChoice(choices[_mouseOnRightSide ? 1 : 0]);
             GameManager.SelectNewCard();
-        }
-
-        private void CardSelected(Card card)
-        {
-            
-        }
-
-        private void OnDestroy()
-        {
-            GameEvent.OnCardSelected -= CardSelected;
         }
     }
 }
