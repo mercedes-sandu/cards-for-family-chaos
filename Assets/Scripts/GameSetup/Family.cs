@@ -127,6 +127,7 @@ namespace GameSetup
                     _characters[edge.DestinationVertex]));
             }
             
+            // todo: sometimes this results in an out of bounds error?
             foreach (var edge in edges.GetRange(familyOne._size, familyTwo._size).Where(edge => familyTwo._solution[edge]))
             {
                 _graphViz.AddEdge(new GraphViz<Character>.Edge(_characters[edge.SourceVertex + familyOne._size],

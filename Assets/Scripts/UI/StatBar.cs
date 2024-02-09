@@ -22,6 +22,8 @@ namespace UI
         [SerializeField] private float dotFadeTime;
 
         private int _currentValue;
+        private bool _dotCoroutineRunning = false;
+        private Coroutine _dotCoroutine;
 
         /// <summary>
         /// Sets the current value of the stat bar to the max value. Subscribes to game events.
@@ -29,6 +31,8 @@ namespace UI
         private void Awake()
         {
             _currentValue = maxValue;
+            
+            dot.color = new Color(dot.color.r, dot.color.g, dot.color.b, 0);
 
             GameEvent.OnChoiceHover += UpdateDot;
             GameEvent.OnChoiceMade += UpdateBar;
@@ -40,12 +44,22 @@ namespace UI
         /// dot will fade in. Otherwise, it will fade out.
         /// </summary>
         /// <param name="choice">The choice the player is hovering over.</param>
-        private void UpdateDot(Choice choice)
+        /// <param name="enteringHover">True if the player's mouse pointer is entering the hover area, false otherwise.
+        /// </param>
+        /// <param name="towardChoiceOne">True if the player's mouse pointer is hovering over the left choice, false
+        /// otherwise.</param>
+        private void UpdateDot(Choice choice, bool enteringHover, bool towardChoiceOne)
         {
             int statModifier = choice.StatModifiers
                 .Select(statModifier => statModifier.Stat == stat ? statModifier.Value : 0).Sum();
 
-            StartCoroutine(FadeDot(statModifier != 0));
+            if (_dotCoroutineRunning)
+            {
+                StopCoroutine(_dotCoroutine);
+                _dotCoroutineRunning = false;
+            }
+
+            _dotCoroutine = StartCoroutine(FadeDot(enteringHover && statModifier != 0));
         }
 
         /// <summary>
@@ -56,9 +70,9 @@ namespace UI
         {
             int statModifier = choice.StatModifiers
                 .Select(statModifier => statModifier.Stat == stat ? statModifier.Value : 0).Sum();
-            
+
             if (statModifier == 0) return;
-            
+
             _currentValue = Mathf.Clamp(_currentValue + statModifier, minValue, maxValue);
             StartCoroutine(MoveBar());
         }
@@ -73,7 +87,7 @@ namespace UI
             float time = 0f;
             Color startColor = dot.color;
             Color endColor = new Color(startColor.r, startColor.g, startColor.b, fadeIn ? 1 : 0);
-            
+
             while (time < dotFadeTime)
             {
                 time += Time.deltaTime;
@@ -81,7 +95,7 @@ namespace UI
                 yield return null;
             }
         }
-        
+
         /// <summary>
         /// Coroutine that moves the stat bar to the new value.
         /// </summary>
@@ -90,7 +104,7 @@ namespace UI
         {
             float time = 0f;
             float startValue = bar.fillAmount;
-            float endValue = (float) _currentValue / maxValue;
+            float endValue = (float)_currentValue / maxValue;
 
             while (time < barMoveTime)
             {
@@ -99,7 +113,7 @@ namespace UI
                 yield return null;
             }
         }
-        
+
         // todo: add hover function for stat bar icon to display stat name
 
         /// <summary>

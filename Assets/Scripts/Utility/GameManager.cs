@@ -12,11 +12,11 @@ namespace Utility
         public static Card CurrentCard { get; private set; }
 
         private static int _currentCardIndex; // todo: remove after preconditions implemented
-        private int _weekNumber = 1;
+        private static int _weekNumber = 0;
         private static List<Card> _cardsShown;
 
         /// <summary>
-        ///
+        /// Selects the first card to display to the player.
         /// Note: At this point, all cards have been loaded by CardLoader.
         /// </summary>
         private void Start()
@@ -25,6 +25,10 @@ namespace Utility
             SelectNewCard();
         }
 
+        /// <summary>
+        /// Chooses a new card to display to the player. Calls the corresponding game event once the card has been
+        /// chosen.
+        /// </summary>
         public static void SelectNewCard()
         {
             // todo: eventually incorporate picking cards by preconditions that are satisfied
@@ -32,7 +36,8 @@ namespace Utility
             CurrentCard = CardLoader.AllCards[_currentCardIndex];
             _currentCardIndex++;
             _cardsShown.Add(CurrentCard);
-            GameEvent.CardSelected(CurrentCard);
+            _weekNumber++;
+            GameEvent.CardSelected(CurrentCard, _weekNumber);
         }
     }
 }
