@@ -28,6 +28,7 @@ namespace Utility
         /// Chooses a new card to display to the player. Calls the corresponding game event once the card has been
         /// chosen.
         /// </summary>
+        /// <param name="choice"></param>
         public static void SelectNewCard(Choice choice)
         {
             if (choice.HasFollowup())

@@ -127,7 +127,7 @@ namespace UI
         }
 
         /// <summary>
-        /// 
+        /// Fades in the stat bar's label when the player's mouse pointer hovers over the bar.
         /// </summary>
         public void PointerEnter()
         {
@@ -135,7 +135,7 @@ namespace UI
         }
 
         /// <summary>
-        /// 
+        /// Fades out the stat bar's label when the player's mouse pointer exits the bar.
         /// </summary>
         public void PointerExit()
         {

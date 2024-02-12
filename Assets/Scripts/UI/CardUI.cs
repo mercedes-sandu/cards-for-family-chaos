@@ -65,11 +65,13 @@ namespace UI
         }
 
         /// <summary>
-        /// 
+        /// Starts the coroutine to fade the choice text in or out.
         /// </summary>
-        /// <param name="choice"></param>
-        /// <param name="enteringHover"></param>
-        /// <param name="towardChoiceOne"></param>
+        /// <param name="choice">The choice which is being hovered over by the player.</param>
+        /// <param name="enteringHover">True if the player's pointer is entering the hover area, false if it is exiting.
+        /// </param>
+        /// <param name="towardChoiceOne">True if the player's pointer is hovering over the first choice, false if the
+        /// player's pointer is hovering over the second choice.</param>
         private void FadeChoiceText(Choice choice, bool enteringHover, bool towardChoiceOne)
         {
             if (towardChoiceOne)
@@ -97,11 +99,13 @@ namespace UI
         }
 
         /// <summary>
-        /// 
+        /// The coroutine that fades the choice text in or out.
         /// </summary>
-        /// <param name="enteringHover"></param>
-        /// <param name="choiceText"></param>
-        /// <param name="towardChoiceOne"></param>
+        /// <param name="enteringHover">True if the player's pointer is entering the hover area, false if it is exiting.
+        /// </param>
+        /// <param name="choiceText">The choice text object.</param>
+        /// <param name="towardChoiceOne">True if the player's pointer is hovering over the first choice, false if the
+        /// player's pointer is hovering over the second choice.</param>
         /// <returns></returns>
         private IEnumerator FadeChoiceTextCoroutine(bool enteringHover, TextMeshProUGUI choiceText,
             bool towardChoiceOne)
@@ -127,9 +131,9 @@ namespace UI
         }
 
         /// <summary>
-        /// 
+        /// Resets card state and slides the card out of view when the player makes a choice.
         /// </summary>
-        /// <param name="choice"></param>
+        /// <param name="choice">The choice that the player made.</param>
         private void SlideCardOut(Choice choice)
         {
             _lastChoiceMade = choice;
@@ -140,7 +144,8 @@ namespace UI
         }
 
         /// <summary>
-        /// 
+        /// Calls the game manager to select a new card to display. Called by the animator at the end of the slide out
+        /// animation.
         /// </summary>
         public void SelectNewCard()
         {

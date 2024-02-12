@@ -103,10 +103,10 @@ namespace GameSetup
         }
 
         /// <summary>
-        /// 
+        /// Sets the characters in the combined family graph. Assigns them to the nodes in the graph.
         /// </summary>
-        /// <param name="familyOne"></param>
-        /// <param name="familyTwo"></param>
+        /// <param name="familyOne">The first family which was generated.</param>
+        /// <param name="familyTwo">The second family which was generated.</param>
         public void SetCharacters(Family familyOne, Family familyTwo)
         {
             foreach (var (index, character) in familyOne._characters)

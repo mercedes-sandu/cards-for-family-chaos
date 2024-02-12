@@ -28,11 +28,7 @@ namespace CCSS
             Scenario = scenario;
             Choices = choices;
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
+        
         public override string ToString()
         {
             return JsonConvert.SerializeObject(this);
@@ -59,22 +55,18 @@ namespace CCSS
         }
 
         /// <summary>
-        /// 
+        /// Creates a choice corresponding to null.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The null choice.</returns>
         public static Choice NullChoice() =>
             new("", int.MaxValue, Array.Empty<StatModifier>(), Array.Empty<int>(), "null");
 
         /// <summary>
-        /// 
+        /// Returns whether the choice has a followup card that will be presented to the player once the choice is made.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>True if there is a followup card (has a number string), false otherwise.</returns>
         public bool HasFollowup() => !FollowupCard.Equals("") && !FollowupCard.Equals("null");
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
+        
         public override string ToString()
         {
             return JsonConvert.SerializeObject(this);
@@ -92,11 +84,7 @@ namespace CCSS
             Stat = stat;
             Value = value;
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
+        
         public override string ToString()
         {
             return JsonConvert.SerializeObject(this);
