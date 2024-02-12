@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using CCSS;
 using GameSetup;
@@ -25,11 +26,22 @@ namespace UI
         private bool _dotCoroutineRunning = false;
         private Coroutine _dotCoroutine;
 
+        private Animator _animator;
+
+        private static readonly Dictionary<Player.Stat, int> StatToAnimBool = new()
+        {
+            {Player.Stat.Reputation, Animator.StringToHash("reputationFadeIn")},
+            {Player.Stat.Money, Animator.StringToHash("moneyFadeIn")},
+            {Player.Stat.Health, Animator.StringToHash("healthFadeIn")}
+        };
+
         /// <summary>
         /// Sets the current value of the stat bar to the max value. Subscribes to game events.
         /// </summary>
         private void Awake()
         {
+            _animator = GetComponent<Animator>();
+            
             _currentValue = maxValue;
             
             dot.color = new Color(dot.color.r, dot.color.g, dot.color.b, 0);
@@ -114,7 +126,21 @@ namespace UI
             }
         }
 
-        // todo: add hover function for stat bar icon to display stat name
+        /// <summary>
+        /// 
+        /// </summary>
+        public void PointerEnter()
+        {
+            _animator.SetBool(StatToAnimBool[stat], true);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void PointerExit()
+        {
+            _animator.SetBool(StatToAnimBool[stat], false);
+        }
 
         /// <summary>
         /// Unsubscribes from game events.

@@ -2,6 +2,7 @@ using System.Collections;
 using CCSS;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Utility;
 
 namespace UI
@@ -10,6 +11,7 @@ namespace UI
     {
         [SerializeField] private RectTransform cardRectTransform;
         [SerializeField] private TextMeshProUGUI weekText;
+        [SerializeField] private Animator compatibilityBarAnimator;
 
         // card rotation toward mouse
         private static bool _canRotateCard = false;
@@ -20,6 +22,8 @@ namespace UI
         private bool _cardResetCoroutineRunning = false;
 
         private Choice _lastMadeChoice;
+        
+        private static readonly int FadeIn = Animator.StringToHash("fadeIn");
 
         /// <summary>
         /// 
@@ -152,9 +156,37 @@ namespace UI
             weekText.text = $"Week {weekNumber}";
         }
 
-        // todo: implement pause button
+        /// <summary>
+        /// 
+        /// </summary>
+        public void CompatibilityBarPointerEnter()
+        {
+            compatibilityBarAnimator.SetBool(FadeIn, true);
+        }
 
-        // todo: implement families button
+        /// <summary>
+        /// 
+        /// </summary>
+        public void CompatibilityBarPointerExit()
+        {
+            compatibilityBarAnimator.SetBool(FadeIn, false);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void PauseButton()
+        {
+            
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public void FamiliesButton()
+        {
+            
+        }
 
         /// <summary>
         /// 
