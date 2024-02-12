@@ -87,7 +87,7 @@ namespace GameSetup
         {
             _familyOne.SetCharacters(MakeNumCharacters(_familyOneSize));
             _familyTwo.SetCharacters(MakeNumCharacters(_familyTwoSize));
-            _combinedFamily.SetCharacters(_familyOne, _familyTwo);
+            _combinedFamily.SetCharacters(_familyOne, _familyTwo); // todo: need to add additional edges between families
         }
 
         /// <summary>

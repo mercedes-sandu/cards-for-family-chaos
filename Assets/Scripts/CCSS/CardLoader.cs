@@ -50,7 +50,14 @@ namespace CCSS
                 AllCards.Add(card.Value);
             }
         }
-        
+
+        /// <summary>
+        /// Returns the card corresponding to the specified string key.
+        /// </summary>
+        /// <param name="key">The card number as a string.</param>
+        /// <returns>The card with the specified number.</returns>
+        public static Card GetCard(string key) => _cardsDictionary[key];
+
         // todo: write a function that determines which cards are available to the player based on their progress
     }
 }

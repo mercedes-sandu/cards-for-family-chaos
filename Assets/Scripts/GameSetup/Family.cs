@@ -18,7 +18,7 @@ namespace GameSetup
         private Graph _graph;
         private Dictionary<ushort, EdgeProposition> _edges;
         private Solution _solution;
-        private GraphViz<Character> _graphViz; // todo: change to character
+        private GraphViz<Character> _graphViz;
         private Dictionary<int, Character> _characters;
 
         /// <summary>
@@ -118,23 +118,21 @@ namespace GameSetup
             {
                 _characters.Add(index + familyOne._size, character);
             }
-
-            var edges = _edges.Values.ToList();
             
-            foreach (var edge in edges.GetRange(0, familyOne._size).Where(edge => familyOne._solution[edge]))
+            foreach (var edge in familyOne._edges.Values.Where(edge => familyOne._solution[edge]))
             {
                 _graphViz.AddEdge(new GraphViz<Character>.Edge(_characters[edge.SourceVertex],
                     _characters[edge.DestinationVertex]));
             }
             
-            // todo: sometimes this results in an out of bounds error?
-            foreach (var edge in edges.GetRange(familyOne._size, familyTwo._size).Where(edge => familyTwo._solution[edge]))
+            foreach (var edge in familyTwo._edges.Values.Where(edge => familyTwo._solution[edge]))
             {
                 _graphViz.AddEdge(new GraphViz<Character>.Edge(_characters[edge.SourceVertex + familyOne._size],
                     _characters[edge.DestinationVertex + familyOne._size]));
             }
         }
 
+        // todo: do i need this?
         /// <summary>
         /// Returns the dictionary of edges in the graph representing the family.
         /// NOTE: If this is of a single family, then all edges (whether actually present in the solution or not) are

@@ -22,27 +22,29 @@
             "Value": 0
           }
         ],
-        "EdgeModifiers": []
+        "EdgeModifiers": [],
+        "FollowupCard": ""
       },
-        {
-            "ChoiceText": "Choice Two",
-            "CompatibilityModifier": -20,
-            "StatModifiers": [
-            {
-                "Stat": 0,
-                "Value": -20
-            },
-            {
-                "Stat": 1,
-                "Value": -10
-            },
-            {
-                "Stat": 2,
-                "Value": 0
-            }
-            ],
-            "EdgeModifiers": []
-        }
+      {
+        "ChoiceText": "Choice Two",
+        "CompatibilityModifier": -20,
+        "StatModifiers": [
+          {
+            "Stat": 0,
+            "Value": -20
+          },
+          {
+            "Stat": 1,
+            "Value": -10
+          },
+          {
+            "Stat": 2,
+            "Value": 0
+          }
+        ],
+        "EdgeModifiers": [],
+        "FollowupCard": ""
+      }
     ]
   },
   "1": {
@@ -68,7 +70,8 @@
             "Value": -10
           }
         ],
-        "EdgeModifiers": []
+        "EdgeModifiers": [],
+        "FollowupCard": ""
       },
       {
         "ChoiceText": "Don't go with them.",
@@ -87,7 +90,8 @@
             "Value": 10
           }
         ],
-        "EdgeModifiers": []
+        "EdgeModifiers": [],
+        "FollowupCard": ""
       }
     ]
   }

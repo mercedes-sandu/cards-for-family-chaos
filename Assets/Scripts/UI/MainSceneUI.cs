@@ -10,7 +10,6 @@ namespace UI
     {
         [SerializeField] private RectTransform cardRectTransform;
         [SerializeField] private TextMeshProUGUI weekText;
-        [SerializeField] private CardUI cardUI;
 
         // card rotation toward mouse
         private static bool _canRotateCard = false;
@@ -19,6 +18,8 @@ namespace UI
         private bool _cardRotationCoroutineRunning = false;
         private Coroutine _cardResetCoroutine;
         private bool _cardResetCoroutineRunning = false;
+
+        private Choice _lastMadeChoice;
 
         /// <summary>
         /// 
@@ -51,7 +52,7 @@ namespace UI
                 _cardRotationCoroutineRunning = false;
             }
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -64,16 +65,25 @@ namespace UI
             _cardRotationCoroutine = StartCoroutine(RotateCardTowardMouseCoroutine(towardChoiceOne));
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public void ResetCardPosition(bool towardChoiceOne)
+        public void ResetCardPositionNoChoice(bool towardChoiceOne)
         {
             StopExistingCoroutines();
             GameEvent.HoverChoice(
                 towardChoiceOne ? GameManager.CurrentCard.Choices[0] : GameManager.CurrentCard.Choices[1], false,
                 towardChoiceOne);
-            _cardResetCoroutine = StartCoroutine(ResetCardPositionCoroutine(towardChoiceOne));
+            _cardResetCoroutine = StartCoroutine(ResetCardPositionCoroutine(false));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void ResetCardPositionChoice(bool towardChoiceOne)
+        {
+            StopExistingCoroutines();
+            GameEvent.HoverChoice(
+                towardChoiceOne ? GameManager.CurrentCard.Choices[0] : GameManager.CurrentCard.Choices[1], false,
+                towardChoiceOne);
+            _cardResetCoroutine = StartCoroutine(ResetCardPositionCoroutine(true));
         }
 
         /// <summary>
@@ -99,8 +109,9 @@ namespace UI
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="choiceMade"></param>
         /// <returns></returns>
-        private IEnumerator ResetCardPositionCoroutine(bool towardChoiceOne)
+        private IEnumerator ResetCardPositionCoroutine(bool choiceMade)
         {
             _cardResetCoroutineRunning = true;
             Quaternion targetRotation = Quaternion.identity;
@@ -113,16 +124,22 @@ namespace UI
 
             _cardResetCoroutineRunning = false;
             cardRectTransform.rotation = targetRotation;
+
+            if (choiceMade)
+            {
+                GameEvent.MakeChoice(_lastMadeChoice);
+            }
         }
 
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="towardChoiceOne"></param>
         public void MakeChoice(bool towardChoiceOne)
         {
-            Choice[] choices = GameManager.CurrentCard.Choices;
-            GameEvent.MakeChoice(choices[towardChoiceOne ? 0 : 1]);
-            GameManager.SelectNewCard();
+            _lastMadeChoice = GameManager.CurrentCard.Choices[towardChoiceOne ? 0 : 1];
+            _canRotateCard = false;
+            ResetCardPositionChoice(towardChoiceOne);
         }
 
         /// <summary>

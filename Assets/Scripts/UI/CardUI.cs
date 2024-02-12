@@ -22,8 +22,10 @@ namespace UI
         private bool _choiceTwoCoroutineRunning = false;
         private Coroutine _choiceTwoCoroutine;
 
+        private Choice _lastChoiceMade;
+
         /// <summary>
-        /// Grabs the animator and disables it. Hides the choices text. Also subscribes to the OnCardSelected event.
+        /// Grabs the animator and disables it. Hides the choices text. Also subscribes to game events.
         /// </summary>
         private void Awake()
         {
@@ -35,6 +37,7 @@ namespace UI
 
             GameEvent.OnCardSelected += DisplayCard;
             GameEvent.OnChoiceHover += FadeChoiceText;
+            GameEvent.OnChoiceMade += SlideCardOut;
         }
 
         /// <summary>
@@ -61,6 +64,12 @@ namespace UI
             MainSceneUI.SetCanRotateCard(true);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="choice"></param>
+        /// <param name="enteringHover"></param>
+        /// <param name="towardChoiceOne"></param>
         private void FadeChoiceText(Choice choice, bool enteringHover, bool towardChoiceOne)
         {
             if (towardChoiceOne)
@@ -87,6 +96,13 @@ namespace UI
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="enteringHover"></param>
+        /// <param name="choiceText"></param>
+        /// <param name="towardChoiceOne"></param>
+        /// <returns></returns>
         private IEnumerator FadeChoiceTextCoroutine(bool enteringHover, TextMeshProUGUI choiceText,
             bool towardChoiceOne)
         {
@@ -111,12 +127,34 @@ namespace UI
         }
 
         /// <summary>
-        /// Unsubscribes from the OnCardSelected event.
+        /// 
+        /// </summary>
+        /// <param name="choice"></param>
+        private void SlideCardOut(Choice choice)
+        {
+            _lastChoiceMade = choice;
+            choiceOneText.alpha = 0;
+            choiceTwoText.alpha = 0;
+            _animator.enabled = true;
+            _animator.SetBool(SlidingIn, false);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void SelectNewCard()
+        {
+            GameManager.SelectNewCard(_lastChoiceMade);
+        }
+
+        /// <summary>
+        /// Unsubscribes from game events.
         /// </summary>
         private void OnDestroy()
         {
             GameEvent.OnCardSelected -= DisplayCard;
             GameEvent.OnChoiceHover -= FadeChoiceText;
+            GameEvent.OnChoiceMade -= SlideCardOut;
         }
     }
 }
