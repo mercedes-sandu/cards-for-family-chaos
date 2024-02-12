@@ -12,6 +12,8 @@ namespace UI
         [SerializeField] private RectTransform cardRectTransform;
         [SerializeField] private TextMeshProUGUI weekText;
         [SerializeField] private Animator compatibilityBarAnimator;
+        
+        // todo: write coroutine to update compatibility bar on choice made
 
         // card rotation toward mouse
         private static bool _canRotateCard = false;
