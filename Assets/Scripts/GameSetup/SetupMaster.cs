@@ -49,7 +49,7 @@ namespace GameSetup
             _familyTwo = new Family(_familyTwoSize, _familyTwoSurname, minGraphDensity, maxGraphDensity);
             _combinedFamily = new Family(_familyOneSize + _familyTwoSize, _familyOne, _familyTwo);
             
-            FileCopier.CheckForCopies();
+            FileCopier.CheckForCopies(); // todo: remove when game is complete
 
             CreateAllCharacters();
             

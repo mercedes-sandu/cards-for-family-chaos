@@ -29,30 +29,26 @@ namespace GameSetup
         public Character(PossibleIndividual character, string surname, Solution solution)
         {
             FirstName = character.Name;
-            
+
             Surname = surname;
-            
-            // todo: fix the other properties to read like this
+
             Dictionary<Property, Variable> properties = character.Individual.Properties;
-            var ageProperty = properties[SetupMaster.Ontology.Property("age")];
-            Age = (int) Math.Round((float)solution[ageProperty]);
-            
-            // var thing = character[]
-            
+
+            Age = (int)Math.Round((float)solution[properties[SetupMaster.Ontology.Property("age")]]);
+
             List<string> adjectives =
                 character.AdjectivesDescribing().Select(adjective => adjective.ToString()).ToList();
             adjectives.RemoveAt(adjectives.Count - 1); // type of name, not relevant
-            
+
             Alignment = adjectives[0];
-            
+
             PersonalityTraits = adjectives.GetRange(1, 2).ToArray();
-            
-            Occupation = properties[SetupMaster.Ontology.Property("occupation")].ValueString(solution)
-                .Split("=")[1];
-            
+
+            Occupation = solution[properties[SetupMaster.Ontology.Property("occupation")]].ToString();
+
             Debug.Log(
                 $"{FirstName} {Surname}\nage: {Age}\nalignment: {Alignment}\npersonality traits: {string.Join(", ", PersonalityTraits)}\noccupation: {Occupation}");
-            
+
             // Debug.Log(string.Join(", ", properties.Select(property => $"{property.Key} : {property.Value}")));
         }
 

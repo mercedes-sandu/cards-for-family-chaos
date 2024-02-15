@@ -15,7 +15,7 @@ namespace Utility
         private const string GenExtension = ".gen";
         private const string CsvExtension = ".csv";
         private const string TxtExtension = ".txt";
-        
+
         /// <summary>
         /// Checks for the existence of Imaginarium files in the player's local data. If they don't exist, they are
         /// copied from the Resources folder.
@@ -25,40 +25,44 @@ namespace Utility
             TextAsset[] allImaginariumFiles = Resources.LoadAll<TextAsset>(ImaginariumFolder);
             TextAsset[] allInflectionsFiles = Resources.LoadAll<TextAsset>(InflectionsFolder);
             TextAsset cardsJson = Resources.Load<TextAsset>(ResourcesCardsJsonPath);
-            
+
             foreach (var file in allImaginariumFiles)
             {
                 string fileName = $"{file.name}{(file.text.Contains(GenFileIndicator) ? GenExtension : TxtExtension)}";
+                string txtFileName = $"{file.name}{TxtExtension}";
                 Debug.Log($"Checking for copy of {fileName}.");
                 string filePath = Path.Combine(PersistentDataPath, fileName);
-                if (!File.Exists(filePath))
+                string txtFilePath = Path.Combine(PersistentDataPath, txtFileName);
+                if (!File.Exists(filePath) || !File.Exists(txtFilePath))
                 {
                     CopyFile(file, fileName);
                 }
                 else
                 {
-                    CheckFileDiff(file, File.ReadAllText(filePath), fileName);
+                    CheckFileDiff(file, File.ReadAllText(txtFilePath), fileName);
                 }
             }
-            
+
             MakeInflectionDirectory();
-            
+
             foreach (var file in allInflectionsFiles)
             {
                 string fileName = $"{file.name}{(file.text.Contains(CsvFileIndicator) ? CsvExtension : TxtExtension)}";
+                string txtFileName = $"{file.name}{TxtExtension}";
                 Debug.Log($"Checking for copy of {fileName}.");
                 string filePath = Path.Combine(PersistentDataPath, InflectionsFolder, fileName);
-                if (!File.Exists(filePath))
+                string txtFilePath = Path.Combine(PersistentDataPath, InflectionsFolder, txtFileName);
+                if (!File.Exists(filePath) || !File.Exists(txtFilePath))
                 {
                     CopyFile(file, Path.Combine(InflectionsFolder, fileName));
                 }
                 else
                 {
-                    CheckFileDiff(file, File.ReadAllText(filePath), 
+                    CheckFileDiff(file, File.ReadAllText(txtFilePath),
                         Path.Combine(InflectionsFolder, fileName));
                 }
             }
-            
+
             MakeJson(cardsJson, CardsJson);
         }
 
@@ -71,7 +75,6 @@ namespace Utility
         /// <param name="fileName">The file's name that is being compared.</param>
         private static void CheckFileDiff(TextAsset newerFile, string olderFileContents, string fileName)
         {
-            // todo: doesn't check for diff with gen files. fix
             // todo: more efficient/better way to do this than Equals()?
             if (newerFile.text.Equals(olderFileContents)) return;
             Debug.Log($"Found difference for {fileName}.");
@@ -96,7 +99,7 @@ namespace Utility
                 CheckFileDiff(resourcesJson, File.ReadAllText(filePath), fileName);
             }
         }
-        
+
         /// <summary>
         /// Creates a folder for inflections in the player's local data if it doesn't already exist.
         /// </summary>
@@ -106,19 +109,25 @@ namespace Utility
             Debug.Log($"Creating Inflections folder.");
             Directory.CreateDirectory(Path.Combine(PersistentDataPath, InflectionsFolder));
         }
-        
+
         /// <summary>
-        /// Copies the specified file with the specified filename to the player's local data.
+        /// Copies the specified file with the specified filename to the player's local data. If the file is not a
+        /// standard txt type, then its corresponding txt file is also copied.
         /// </summary>
         /// <param name="file">The file to be copied.</param>
         /// <param name="fileName">The file's name.</param>
         private static void CopyFile(TextAsset file, string fileName)
         {
-            string fileText = fileName.Contains(CsvExtension) 
-                ? file.text.Replace(CsvFileIndicator, "") 
+            string fileText = fileName.Contains(CsvExtension)
+                ? file.text.Replace(CsvFileIndicator, "")
                 : file.text;
             File.WriteAllText(Path.Combine(PersistentDataPath, fileName), fileText);
             Debug.Log($"Copied {fileName} to {PersistentDataPath}.");
+
+            if (fileName.Contains(TxtExtension)) return;
+            string txtFileName = fileName.Replace(GenExtension, TxtExtension).Replace(CsvExtension, TxtExtension);
+            File.WriteAllText(Path.Combine(PersistentDataPath, txtFileName), file.text);
+            Debug.Log($"Copied {txtFileName} to {PersistentDataPath}.");
         }
     }
 }

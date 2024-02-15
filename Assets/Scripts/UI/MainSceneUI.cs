@@ -11,9 +11,14 @@ namespace UI
     {
         [SerializeField] private RectTransform cardRectTransform;
         [SerializeField] private TextMeshProUGUI weekText;
-        [SerializeField] private Animator compatibilityBarAnimator;
         
-        // todo: write coroutine to update compatibility bar on choice made
+        [SerializeField] private Image compatibilityBar;
+        
+        [SerializeField] private int minCompatibilityValue;
+        [SerializeField] private int maxCompatibilityValue;
+        [SerializeField] private float compatibilityBarMoveTime;
+
+        private int _currentCompatibilityValue;
 
         // card rotation toward mouse
         private static bool _canRotateCard = false;
@@ -25,6 +30,7 @@ namespace UI
 
         private Choice _lastMadeChoice;
 
+        private Animator _compatibilityBarAnimator;
         private static readonly int FadeIn = Animator.StringToHash("fadeIn");
 
         /// <summary>
@@ -32,7 +38,12 @@ namespace UI
         /// </summary>
         private void Awake()
         {
+            _compatibilityBarAnimator = compatibilityBar.transform.parent.parent.GetComponent<Animator>();
+
+            _currentCompatibilityValue = maxCompatibilityValue;
+            
             GameEvent.OnCardSelected += UpdateWeek;
+            GameEvent.OnChoiceMade += UpdateCompatibilityBar;
         }
 
         /// <summary>
@@ -176,7 +187,7 @@ namespace UI
         /// </summary>
         public void CompatibilityBarPointerEnter()
         {
-            compatibilityBarAnimator.SetBool(FadeIn, true);
+            _compatibilityBarAnimator.SetBool(FadeIn, true);
         }
 
         /// <summary>
@@ -184,9 +195,41 @@ namespace UI
         /// </summary>
         public void CompatibilityBarPointerExit()
         {
-            compatibilityBarAnimator.SetBool(FadeIn, false);
+            _compatibilityBarAnimator.SetBool(FadeIn, false);
         }
 
+        /// <summary>
+        /// Updates the compatibility bar's value based on the choice made by the player.
+        /// </summary>
+        /// <param name="choice">The choice made by the player.</param>
+        private void UpdateCompatibilityBar(Choice choice)
+        {
+            int compatibilityModifier = choice.CompatibilityModifier;
+            if (compatibilityModifier == 0) return;
+
+            _currentCompatibilityValue = Mathf.Clamp(_currentCompatibilityValue + compatibilityModifier,
+                minCompatibilityValue, maxCompatibilityValue);
+            StartCoroutine(MoveBar());
+        }
+        
+        /// <summary>
+        /// Coroutine that moves the compatibility bar to the new value.
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator MoveBar()
+        {
+            float time = 0f;
+            float startValue = compatibilityBar.fillAmount;
+            float endValue = (float)_currentCompatibilityValue / maxCompatibilityValue;
+
+            while (time < compatibilityBarMoveTime)
+            {
+                time += Time.deltaTime;
+                compatibilityBar.fillAmount = Mathf.Lerp(startValue, endValue, time / compatibilityBarMoveTime);
+                yield return null;
+            }
+        }
+        
         /// <summary>
         /// Pauses the game and displays the pause menu.
         /// </summary>
@@ -207,6 +250,7 @@ namespace UI
         private void OnDestroy()
         {
             GameEvent.OnCardSelected -= UpdateWeek;
+            GameEvent.OnChoiceMade -= UpdateCompatibilityBar;
         }
     }
 }

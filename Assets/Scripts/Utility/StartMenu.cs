@@ -6,6 +6,14 @@ namespace Utility
     public class StartMenu : MonoBehaviour
     {
         /// <summary>
+        /// 
+        /// </summary>
+        private void Awake()
+        {
+            FileCopier.CheckForCopies();
+        }
+        
+        /// <summary>
         /// Loads the setup scene to start the game.
         /// TODO: change this to instructions screen when done
         /// </summary>

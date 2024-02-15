@@ -3023,7 +3023,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardRectTransform: {fileID: 785526235}
   weekText: {fileID: 1545929396}
-  compatibilityBarAnimator: {fileID: 1962780039}
+  compatibilityBar: {fileID: 1101573610}
+  minCompatibilityValue: 0
+  maxCompatibilityValue: 100
+  compatibilityBarMoveTime: 0.5
 --- !u!1 &1083901309
 GameObject:
   m_ObjectHideFlags: 0
