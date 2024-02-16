@@ -20,7 +20,7 @@ namespace UI
 
         private int _currentCompatibilityValue;
 
-        // card rotation toward mouse
+        // cardTemplate rotation toward mouse
         private static bool _canRotateCard = false;
         private const float MaxCardRotation = 10f;
         private Coroutine _cardRotationCoroutine;
@@ -47,9 +47,9 @@ namespace UI
         }
 
         /// <summary>
-        /// Sets the variable that determines whether the card can be rotated toward the mouse.
+        /// Sets the variable that determines whether the cardTemplate can be rotated toward the mouse.
         /// </summary>
-        /// <param name="canRotateCard">True if the card can be rotated toward the player's mouse position, false
+        /// <param name="canRotateCard">True if the cardTemplate can be rotated toward the player's mouse position, false
         /// otherwise.</param>
         public static void SetCanRotateCard(bool canRotateCard) => _canRotateCard = canRotateCard;
 
@@ -72,51 +72,51 @@ namespace UI
         }
 
         /// <summary>
-        /// Starts the coroutine that rotates the card toward the player's mouse position.
+        /// Starts the coroutine that rotates the cardTemplate toward the player's mouse position.
         /// </summary>
-        /// <param name="towardChoiceOne">True if the card is rotating toward the first choice, false if the card is
+        /// <param name="towardChoiceOne">True if the cardTemplate is rotating toward the first choice, false if the cardTemplate is
         /// rotating toward the second choice.</param>
         public void RotateCardTowardMouse(bool towardChoiceOne)
         {
             StopExistingCoroutines();
             GameEvent.HoverChoice(
-                towardChoiceOne ? GameManager.CurrentCard.Choices[0] : GameManager.CurrentCard.Choices[1], true,
+                towardChoiceOne ? GameManager.CurrentCardTemplate.Choices[0] : GameManager.CurrentCardTemplate.Choices[1], true,
                 towardChoiceOne);
             _cardRotationCoroutine = StartCoroutine(RotateCardTowardMouseCoroutine(towardChoiceOne));
         }
 
         /// <summary>
-        /// Starts the coroutine that resets the card's rotation, while the player has not yet made a choice.
+        /// Starts the coroutine that resets the cardTemplate's rotation, while the player has not yet made a choice.
         /// </summary>
-        /// <param name="towardChoiceOne">True if the card is rotating toward the first choice, false if the card is
+        /// <param name="towardChoiceOne">True if the cardTemplate is rotating toward the first choice, false if the cardTemplate is
         /// rotating toward the second choice.</param>
         public void ResetCardPositionNoChoice(bool towardChoiceOne)
         {
             StopExistingCoroutines();
             GameEvent.HoverChoice(
-                towardChoiceOne ? GameManager.CurrentCard.Choices[0] : GameManager.CurrentCard.Choices[1], false,
+                towardChoiceOne ? GameManager.CurrentCardTemplate.Choices[0] : GameManager.CurrentCardTemplate.Choices[1], false,
                 towardChoiceOne);
             _cardResetCoroutine = StartCoroutine(ResetCardPositionCoroutine(false));
         }
 
         /// <summary>
-        /// Starts the coroutine that resets the card's rotation, after the player has made a choice.
+        /// Starts the coroutine that resets the cardTemplate's rotation, after the player has made a choice.
         /// </summary>
-        /// <param name="towardChoiceOne">True if the card is rotating toward the first choice, false if the card is
+        /// <param name="towardChoiceOne">True if the cardTemplate is rotating toward the first choice, false if the cardTemplate is
         /// rotating toward the second choice.</param>
         private void ResetCardPositionChoice(bool towardChoiceOne)
         {
             StopExistingCoroutines();
             GameEvent.HoverChoice(
-                towardChoiceOne ? GameManager.CurrentCard.Choices[0] : GameManager.CurrentCard.Choices[1], false,
+                towardChoiceOne ? GameManager.CurrentCardTemplate.Choices[0] : GameManager.CurrentCardTemplate.Choices[1], false,
                 towardChoiceOne);
             _cardResetCoroutine = StartCoroutine(ResetCardPositionCoroutine(true));
         }
 
         /// <summary>
-        /// Rotates the card toward the player's mouse position.
+        /// Rotates the cardTemplate toward the player's mouse position.
         /// </summary>
-        /// <param name="towardChoiceOne">True if the card is rotating toward the first choice, false if the card is
+        /// <param name="towardChoiceOne">True if the cardTemplate is rotating toward the first choice, false if the cardTemplate is
         /// rotating toward the second choice.</param>
         /// <returns></returns>
         private IEnumerator RotateCardTowardMouseCoroutine(bool towardChoiceOne)
@@ -136,7 +136,7 @@ namespace UI
         }
 
         /// <summary>
-        /// Resets the card's rotation. If a choice has been made by the player, the corresponding game event is called.
+        /// Resets the cardTemplate's rotation. If a choice has been made by the player, the corresponding game event is called.
         /// </summary>
         /// <param name="choiceMade">True if a choice has been made by the player, false otherwise.</param>
         /// <returns></returns>
@@ -161,13 +161,13 @@ namespace UI
         }
 
         /// <summary>
-        /// Sets the last choice made by the player and resets the card's rotation.
+        /// Sets the last choice made by the player and resets the cardTemplate's rotation.
         /// </summary>
-        /// <param name="towardChoiceOne">True if the card is rotating toward the first choice, false if the card is
+        /// <param name="towardChoiceOne">True if the cardTemplate is rotating toward the first choice, false if the cardTemplate is
         /// rotating toward the second choice.</param>
         public void MakeChoice(bool towardChoiceOne)
         {
-            _lastMadeChoice = GameManager.CurrentCard.Choices[towardChoiceOne ? 0 : 1];
+            _lastMadeChoice = GameManager.CurrentCardTemplate.Choices[towardChoiceOne ? 0 : 1];
             _canRotateCard = false;
             ResetCardPositionChoice(towardChoiceOne);
         }
@@ -175,9 +175,9 @@ namespace UI
         /// <summary>
         /// Updates the text that displays the current week number.
         /// </summary>
-        /// <param name="card">The card that is to be displayed.</param>
+        /// <param name="cardTemplate">The cardTemplate that is to be displayed.</param>
         /// <param name="weekNumber">The current week number to be displayed.</param>
-        private void UpdateWeek(Card card, int weekNumber)
+        private void UpdateWeek(CardTemplate cardTemplate, int weekNumber)
         {
             weekText.text = $"Week {weekNumber}";
         }

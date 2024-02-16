@@ -7,9 +7,9 @@ namespace Utility
         // delegates
 
         /// <summary>
-        /// Handles when a card to display has been selected by the system.
+        /// Handles when a cardTemplate to display has been selected by the system.
         /// </summary>
-        public delegate void CardSelectedHandler(Card card, int weekNumber);
+        public delegate void CardSelectedHandler(CardTemplate cardTemplate, int weekNumber);
         
         /// <summary>
         /// Handles when a choice is being hovered over by the player.
@@ -24,7 +24,7 @@ namespace Utility
         // events
         
         /// <summary>
-        /// Listens for when a card to display has been selected by the system.
+        /// Listens for when a cardTemplate to display has been selected by the system.
         /// </summary>
         public static event CardSelectedHandler OnCardSelected;
         
@@ -41,11 +41,11 @@ namespace Utility
         // static methods
         
         /// <summary>
-        /// Invoker for when a card to display has been selected by the system.
+        /// Invoker for when a cardTemplate to display has been selected by the system.
         /// </summary>
-        /// <param name="card">The card to be displayed by the system.</param>
+        /// <param name="cardTemplate">The cardTemplate to be displayed by the system.</param>
         /// <param name="weekNumber">The number of the current week.</param>
-        public static void CardSelected(Card card, int weekNumber) => OnCardSelected?.Invoke(card, weekNumber);
+        public static void CardSelected(CardTemplate cardTemplate, int weekNumber) => OnCardSelected?.Invoke(cardTemplate, weekNumber);
         
         /// <summary>
         /// Invoker for when a choice is being hovered over by the player.
@@ -53,7 +53,7 @@ namespace Utility
         /// <param name="choice">The choice that is being hovered on by the player.</param>
         /// <param name="enteringHover">True if the player's pointer is entering the hover area, false if the player's
         /// pointer is exiting the hover area.</param>
-        /// <param name="towardChoiceOne">True if the card is rotating toward the first choice, false if the card is
+        /// <param name="towardChoiceOne">True if the cardTemplate is rotating toward the first choice, false if the cardTemplate is
         /// rotating toward the second choice.</param>
         public static void HoverChoice(Choice choice, bool enteringHover, bool towardChoiceOne) => OnChoiceHover?.Invoke(choice, enteringHover, towardChoiceOne);
         

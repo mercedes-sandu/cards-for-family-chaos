@@ -130,3 +130,10 @@ namespace GameSetup
         }
     }
 }
+
+// preconditions
+// affinity of (person a, person b) > x
+// have different kinds of affinities
+// stat levels, compatibility level
+// presence or absence of edges
+// stretch goal: characters' likes/dislikes/hobbies/etc.

@@ -9,9 +9,9 @@ namespace CCSS
 {
     public static class CardLoader
     {
-        public static List<Card> AllCards;
+        public static List<CardTemplate> AllCards;
 
-        private static Dictionary<string, Card> _cardsDictionary;
+        private static Dictionary<string, CardTemplate> _cardsDictionary;
         private static readonly string PersistentDataPath = $"{Application.persistentDataPath}";
         private const string PathToCardsJson = "cards.json";
         
@@ -26,7 +26,7 @@ namespace CCSS
             }
 
             _cardsDictionary =
-                JsonConvert.DeserializeObject<Dictionary<string, Card>>(
+                JsonConvert.DeserializeObject<Dictionary<string, CardTemplate>>(
                     File.ReadAllText(Path.Combine(PersistentDataPath, PathToCardsJson)));
             FindAllCards();
         }
@@ -44,7 +44,7 @@ namespace CCSS
         /// </summary>
         private static void FindAllCards()
         {
-            AllCards = new List<Card>();
+            AllCards = new List<CardTemplate>();
             foreach (var card in _cardsDictionary)
             {
                 AllCards.Add(card.Value);
@@ -52,11 +52,11 @@ namespace CCSS
         }
 
         /// <summary>
-        /// Returns the card corresponding to the specified string key.
+        /// Returns the cardTemplate corresponding to the specified string key.
         /// </summary>
-        /// <param name="key">The card number as a string.</param>
-        /// <returns>The card with the specified number.</returns>
-        public static Card GetCard(string key) => _cardsDictionary[key];
+        /// <param name="key">The cardTemplate number as a string.</param>
+        /// <returns>The cardTemplate with the specified number.</returns>
+        public static CardTemplate GetCard(string key) => _cardsDictionary[key];
 
         // todo: write a function that determines which cards are available to the player based on their progress
     }
