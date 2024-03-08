@@ -51,7 +51,7 @@
     "ID": "00000000-0000-0000-0000-000000000001",
     "CardType": 0,
     "NumPeopleInvolved": 1,
-    "Scenario": "Person [[X]] approaches you to say ||Y||.",
+    "Scenario": "[[Person X]] approaches you to say BlahBlah.",
     "Choices": [
       {
         "ChoiceText": "Go with them.",

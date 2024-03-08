@@ -11,6 +11,7 @@ namespace CCSS
         public Type CardType;
         public int NumPeopleInvolved;
         public string Scenario;
+        public string[] Roles; // todo: update in json
         public Choice[] Choices; // todo: might be choice templates
         // todo: will have list of preconditions.. need subtypes
         // enable Type Name Handling and pass that to the deserializer
