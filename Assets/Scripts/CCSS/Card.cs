@@ -6,7 +6,6 @@ namespace CCSS
     public class Card
     {
         public readonly CardTemplate CardTemplate;
-        
         public readonly Character[] Characters;
 
         public Character Role(string roleName)

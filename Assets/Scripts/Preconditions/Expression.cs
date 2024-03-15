@@ -42,7 +42,9 @@ namespace Preconditions
 
     public abstract class Precondition : Expression<bool>
     {
-        public static And operator &(Precondition left, Precondition right) => new And(left, right);
+        public static And operator &(Precondition left, Precondition right) => new (left, right);
+        
+        public static Or operator |(Precondition left, Precondition right) => new (left, right);
     }
     
     public class And : Precondition
@@ -57,6 +59,21 @@ namespace Preconditions
         public override bool Evaluate(Card card)
         {
             return _conjuncts.All(conjunct => conjunct.Evaluate(card));
+        }
+    }
+
+    public class Or : Precondition
+    {
+        private readonly Precondition[] _disjuncts;
+        
+        public Or(params Precondition[] disjuncts)
+        {
+            _disjuncts = disjuncts;
+        }
+        
+        public override bool Evaluate(Card card)
+        {
+            return _disjuncts.Any(disjunct => disjunct.Evaluate(card));
         }
     }
 }

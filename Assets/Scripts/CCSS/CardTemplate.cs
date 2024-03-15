@@ -8,28 +8,20 @@ namespace CCSS
     public class CardTemplate
     {
         public Guid ID;
-        public Type CardType;
-        public int NumPeopleInvolved;
+        public int NumPeopleInvolved; // todo: do i need this?
         public string Scenario;
         public string[] Roles; // todo: update in json
         public Choice[] Choices; // todo: might be choice templates
         // todo: will have list of preconditions.. need subtypes
         // enable Type Name Handling and pass that to the deserializer
 
-        // todo: might get rid of this
-        public enum Type
-        {
-            Choice,
-            Event
-        }
-
         [JsonConstructor]
-        public CardTemplate(Guid id, Type cardType, int numPeopleInvolved, string scenario, Choice[] choices)
+        public CardTemplate(Guid id, int numPeopleInvolved, string scenario, string[] roles, Choice[] choices)
         {
             ID = id;
-            CardType = cardType;
             NumPeopleInvolved = numPeopleInvolved;
             Scenario = scenario;
+            Roles = roles;
             Choices = choices;
         }
         
