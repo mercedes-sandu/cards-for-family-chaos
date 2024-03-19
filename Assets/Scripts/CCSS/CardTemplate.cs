@@ -108,3 +108,10 @@ namespace CCSS
 // card is a card template + vector of role-fillers (objects)
 // eval method takes Card as an argument
 // can use this to implement effects of the card
+
+// preconditions
+// affinity of (person a, person b) > x
+// have different kinds of affinities
+// stat levels, compatibility level
+// presence or absence of edges
+// stretch goal: characters' likes/dislikes/hobbies/etc.

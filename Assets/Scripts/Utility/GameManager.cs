@@ -25,8 +25,8 @@ namespace Utility
         }
 
         /// <summary>
-        /// Chooses a new cardTemplate to display to the player. Calls the corresponding game event once the cardTemplate has been
-        /// chosen.
+        /// Chooses a new cardTemplate to display to the player. Calls the corresponding game event once the
+        /// cardTemplate has been chosen.
         /// </summary>
         /// <param name="choice"></param>
         public static void SelectNewCard(Choice choice)

@@ -18,6 +18,7 @@ namespace GameSetup
         public string Occupation { get; private set; }
         public string[] Likes { get; private set; }
         public string[] Dislikes { get; private set; }
+        public bool InFamilyOne { get; private set; }
 
         /// <summary>
         /// Creates a character based off of a given individual and surname. Extracts the character's properties from
@@ -26,7 +27,8 @@ namespace GameSetup
         /// <param name="character">The character generated.</param>
         /// <param name="surname">The surname of the character.</param>
         /// <param name="solution">The solution of the generated output.</param>
-        public Character(PossibleIndividual character, string surname, Solution solution)
+        /// <param name="inFamilyOne"></param>
+        public Character(PossibleIndividual character, string surname, Solution solution, bool inFamilyOne)
         {
             FirstName = character.Name;
 
@@ -45,6 +47,8 @@ namespace GameSetup
             PersonalityTraits = adjectives.GetRange(1, 2).ToArray();
 
             Occupation = solution[properties[SetupMaster.Ontology.Property("occupation")]].ToString();
+            
+            InFamilyOne = inFamilyOne;
 
             Debug.Log(
                 $"{FirstName} {Surname}\nage: {Age}\nalignment: {Alignment}\npersonality traits: {string.Join(", ", PersonalityTraits)}\noccupation: {Occupation}");

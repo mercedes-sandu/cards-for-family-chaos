@@ -5,7 +5,7 @@ using CCSS;
 using Imaginarium.Driver;
 using Imaginarium.Generator;
 using Imaginarium.Ontology;
-using TMPro;
+using UI;
 using UnityEngine;
 using Utility;
 using Random = UnityEngine.Random;
@@ -17,23 +17,25 @@ namespace GameSetup
         // character generation
         public static Ontology Ontology;
         
+        // player information
+        public static Character PlayerCharacter;
+        public static bool PlayerCharacterFamilyOne;
+        
         // variables for family generation
         [SerializeField] private int minFamilySize;
         [SerializeField] private int maxFamilySize;
 
         [SerializeField] private float minGraphDensity;
         [SerializeField] private float maxGraphDensity;
-
-        [SerializeField] private TextMeshProUGUI familyNameText;
-   
+        
         // graph generation
         private int _familyOneSize;
         private int _familyTwoSize;
         private string _familyOneSurname;
         private string _familyTwoSurname;
-        private Family _familyOne;
-        private Family _familyTwo;
-        private Family _combinedFamily;
+        private static Family _familyOne;
+        private static Family _familyTwo;
+        private static Family _combinedFamily;
     
         /// <summary>
         /// Initializes the families, loads all possible cards. 
@@ -45,11 +47,11 @@ namespace GameSetup
             
             FamilyPreprocessing();
             
-            _familyOne = new Family(_familyOneSize, _familyOneSurname, minGraphDensity, maxGraphDensity);
-            _familyTwo = new Family(_familyTwoSize, _familyTwoSurname, minGraphDensity, maxGraphDensity);
+            _familyOne = new Family(_familyOneSize, _familyOneSurname, minGraphDensity, maxGraphDensity, true);
+            _familyTwo = new Family(_familyTwoSize, _familyTwoSurname, minGraphDensity, maxGraphDensity, false);
             _combinedFamily = new Family(_familyOneSize + _familyTwoSize, _familyOne, _familyTwo);
             
-            FileCopier.CheckForCopies(); // todo: remove when game is complete
+            FileCopier.CheckForCopies(); // todo: remove when game is complete // todo: Wait why did i write this
 
             CreateAllCharacters();
             
@@ -61,12 +63,19 @@ namespace GameSetup
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        private void Start()
+        {
+            SetupSceneUI.Instance.SetupAllButtons(_familyOneSurname, _familyTwoSurname);
+            ShowGraph(1);
+        }
+
+        /// <summary>
         /// Selects a random size and a random surname for each family.
         /// </summary>
         private void FamilyPreprocessing()
         {
-            if (familyNameText) familyNameText.text = ""; // todo: remove if statement when integrated with main scene
-            
             // set family sizes
             _familyOneSize = Random.Range(minFamilySize, maxFamilySize);
             _familyTwoSize = Random.Range(minFamilySize, maxFamilySize);
@@ -114,26 +123,25 @@ namespace GameSetup
                 case 1:
                     _familyOne.ShowGraph();
                     _familyOne.PrintEdges();
-                    familyNameText.text = $"{_familyOneSurname} Family";
                     break;
                 case 2:
                     _familyTwo.ShowGraph();
                     _familyTwo.PrintEdges();
-                    familyNameText.text = $"{_familyTwoSurname} Family";
                     break;
                 case 3:
                     _combinedFamily.ShowGraph();
                     _combinedFamily.PrintEdges();
-                    familyNameText.text = $"{_familyOneSurname} and {_familyTwoSurname} Families";
                     break;
             }
+            
+            SetupSceneUI.Instance.SetActiveButton(index);
         }
+        
+        /// <summary>
+        /// Returns the family corresponding to the selected index.
+        /// </summary>
+        /// <param name="familyOne">True if returning family one, false if returning family one.</param>
+        /// <returns>The desired Family object.</returns>
+        public static Family GetFamily(bool familyOne) => familyOne ? _familyOne : _familyTwo;
     }
 }
-
-// preconditions
-// affinity of (person a, person b) > x
-// have different kinds of affinities
-// stat levels, compatibility level
-// presence or absence of edges
-// stretch goal: characters' likes/dislikes/hobbies/etc.

@@ -28,6 +28,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using GameSetup;
+using UI;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -61,6 +63,10 @@ namespace GraphVisualizing.GraphVisualization
         /// </summary>
         [Tooltip("Prefab to instantiate to make a new node for this graph.")]
         public GameObject NodePrefab;
+
+        public GameObject familyOneNodePrefab;
+
+        public GameObject familyTwoNodePrefab;
 
         /// <summary>
         /// Styles available for drawing edges in this graph
@@ -273,17 +279,69 @@ namespace GraphVisualizing.GraphVisualization
         }
 
         /// <summary>
+        /// Adds a specified family member node.
+        /// </summary>
+        /// <param name="node">Node to add.</param>
+        /// <param name="label">Label to attach to node.</param>
+        /// <param name="familyOne">True if the node corresponds to a member of the first family, false if the node
+        /// corresponds to a member of the second family.</param>
+        /// <param name="style"></param>
+        public void AddFamilyMemberNode(object node, string label, bool familyOne, NodeStyle style = null)
+        {
+            if (nodeDict.ContainsKey(node)) return;
+            if ((familyOne && !familyOneNodePrefab) || (!familyOne && !familyTwoNodePrefab))
+            {
+                Debug.LogError($"No family node prefab set for {SetupMaster.GetFamily(familyOne)} family.");
+                return;
+            }
+
+            style ??= NodeStyles[0];
+            var go = Instantiate(familyOne ? familyOneNodePrefab : familyTwoNodePrefab, transform);
+            go.name = label;
+            go.GetComponent<FamilyMemberNode>()?.SetupNode(node as Character, familyOne); // todo: will this work?
+            var rect = rectTransform.rect;
+            var position = new Vector2(Random.Range(rect.xMin, rect.xMax), Random.Range(rect.yMin, rect.yMax));
+            var internalNode = go.GetComponent<GraphNode>();
+            var index = nodes.Count;
+            nodes.Add(internalNode);
+            foreach (var driver in go.GetComponents<INodeDriver>())
+            {
+                driver.Initialize(this, node, label, style, position, index);
+                nodeDrivers.Add(driver);
+            }
+            
+            nodeDict[node] = internalNode;
+        }
+
+        /// <summary>
         /// Add a single edge to the graph.
         /// </summary>
         /// <param name="start">Node from which edge starts.</param>
         /// <param name="end">Node the edge leads to.</param>
         /// <param name="label">Label for the edge</param>
-        /// <param name="style">Style in which to render the label.  If null, this will use the style whose name is the same as the label, if any, otherwise the first entry in EdgeStyles.</param>
+        /// <param name="style">Style in which to render the label.  If null, this will use the style whose name is the
+        /// same as the label, if any, otherwise the first entry in EdgeStyles.</param>
         public void AddEdge(object start, object end, string label, EdgeStyle style = null)
         {
-            AddNode(start, null); // In case it isn't already defined.
+            if (start is Character c1)
+            {
+                AddFamilyMemberNode(start, c1.ToString(), c1.InFamilyOne);
+            }
+            else
+            {
+                AddNode(start, null); // In case it isn't already defined.
+            }
             var startNode = nodeDict[start];
-            AddNode(end, null); // In case it isn't already defined.
+            
+            if (end is Character c2)
+            {
+                AddFamilyMemberNode(end, c2.ToString(), c2.InFamilyOne);
+            }
+            else
+            {
+                AddNode(end, null); // In case it isn't already defined.
+            }
+
             var endNode = nodeDict[end];
 
             label ??= "";

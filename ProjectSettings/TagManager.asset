@@ -41,3 +41,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Edge
+    uniqueID: 1300336665
+    locked: 0
+  - name: Node
+    uniqueID: 3520865575
+    locked: 0

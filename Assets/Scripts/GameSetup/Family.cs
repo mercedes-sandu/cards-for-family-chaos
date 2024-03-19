@@ -21,6 +21,8 @@ namespace GameSetup
         private GraphViz<Character> _graphViz;
         private Dictionary<int, Character> _characters;
 
+        private bool _isFamilyOne;
+
         /// <summary>
         /// Initializes a family based off of a given number of members and surname. Creates a graph that is passed to
         /// CatSAT to generate a solution. Creates a GraphViz object to visualize the graph.
@@ -29,7 +31,8 @@ namespace GameSetup
         /// <param name="surname">The surname of the family.</param>
         /// <param name="minDensity"></param>
         /// <param name="maxDensity"></param>
-        public Family(int size, string surname, float minDensity, float maxDensity)
+        /// <param name="isFamilyOne"></param>
+        public Family(int size, string surname, float minDensity, float maxDensity, bool isFamilyOne)
         {
             _size = size;
             _surname = surname;
@@ -41,6 +44,8 @@ namespace GameSetup
             _edges = _graph.SATVariableToEdge;
             _solution = _problem.Solve();
             _characters = new Dictionary<int, Character>();
+            
+            _isFamilyOne = isFamilyOne;
 
             _graphViz = new GraphViz<Character>();
         }
@@ -91,7 +96,7 @@ namespace GameSetup
             foreach (PossibleIndividual character in generatedCharacters.Item2)
             {
                 int index = _characters.Count;
-                _characters.Add(index, new Character(character, _surname, generatedCharacters.Item1));
+                _characters.Add(index, new Character(character, _surname, generatedCharacters.Item1, _isFamilyOne));
             }
 
             // todo: is there a way to specify which node styles to use for which nodes?
