@@ -16,10 +16,10 @@ namespace GameSetup
 
         private Problem _problem;
         private Graph _graph;
-        private Dictionary<ushort, EdgeProposition> _edges;
+        public Dictionary<ushort, EdgeProposition> Edges;
         private Solution _solution;
         private GraphViz<Character> _graphViz;
-        private Dictionary<int, Character> _characters;
+        public Dictionary<int, Character> Characters;
 
         private bool _isFamilyOne;
 
@@ -41,9 +41,9 @@ namespace GameSetup
             _graph = new Graph(_problem, _size);
             _graph.Connected();
             _graph.Density(minDensity, maxDensity);
-            _edges = _graph.SATVariableToEdge;
+            Edges = _graph.SATVariableToEdge;
             _solution = _problem.Solve();
-            _characters = new Dictionary<int, Character>();
+            Characters = new Dictionary<int, Character>();
             
             _isFamilyOne = isFamilyOne;
 
@@ -62,7 +62,7 @@ namespace GameSetup
         {
             _size = size;
             _surname = $"{familyOne._surname} and {familyTwo._surname}";
-            _characters = new Dictionary<int, Character>();
+            Characters = new Dictionary<int, Character>();
 
             _graphViz = new GraphViz<Character>(); // change to pair of int and family number
 
@@ -74,16 +74,16 @@ namespace GameSetup
 
             // to address relationship types, use generation numbers
 
-            _edges = new Dictionary<ushort, EdgeProposition>();
-            foreach (var (index, edge) in familyOne._edges)
+            Edges = new Dictionary<ushort, EdgeProposition>();
+            foreach (var (index, edge) in familyOne.Edges)
             {
-                _edges.TryAdd(index, edge);
+                Edges.TryAdd(index, edge);
             }
 
-            ushort indexOffset = (ushort)familyOne._edges.Count;
-            foreach (var (index, edge) in familyTwo._edges)
+            ushort indexOffset = (ushort)familyOne.Edges.Count;
+            foreach (var (index, edge) in familyTwo.Edges)
             {
-                _edges.TryAdd((ushort)(index + indexOffset), edge);
+                Edges.TryAdd((ushort)(index + indexOffset), edge);
             }
         }
 
@@ -95,15 +95,15 @@ namespace GameSetup
         {
             foreach (PossibleIndividual character in generatedCharacters.Item2)
             {
-                int index = _characters.Count;
-                _characters.Add(index, new Character(character, _surname, generatedCharacters.Item1, _isFamilyOne));
+                int index = Characters.Count;
+                Characters.Add(index, new Character(character, _surname, generatedCharacters.Item1, _isFamilyOne));
             }
 
             // todo: is there a way to specify which node styles to use for which nodes?
-            foreach (var (index, edge) in _edges.Where(edge => _solution[edge.Value]))
+            foreach (var (index, edge) in Edges.Where(edge => _solution[edge.Value]))
             {
-                _graphViz.AddEdge(new GraphViz<Character>.Edge(_characters[edge.SourceVertex],
-                    _characters[edge.DestinationVertex]));
+                _graphViz.AddEdge(new GraphViz<Character>.Edge(Characters[edge.SourceVertex],
+                    Characters[edge.DestinationVertex]));
             }
         }
 
@@ -114,26 +114,26 @@ namespace GameSetup
         /// <param name="familyTwo">The second family which was generated.</param>
         public void SetCharacters(Family familyOne, Family familyTwo)
         {
-            foreach (var (index, character) in familyOne._characters)
+            foreach (var (index, character) in familyOne.Characters)
             {
-                _characters.Add(index, character);
+                Characters.Add(index, character);
             }
 
-            foreach (var (index, character) in familyTwo._characters)
+            foreach (var (index, character) in familyTwo.Characters)
             {
-                _characters.Add(index + familyOne._size, character);
+                Characters.Add(index + familyOne._size, character);
             }
             
-            foreach (var edge in familyOne._edges.Values.Where(edge => familyOne._solution[edge]))
+            foreach (var edge in familyOne.Edges.Values.Where(edge => familyOne._solution[edge]))
             {
-                _graphViz.AddEdge(new GraphViz<Character>.Edge(_characters[edge.SourceVertex],
-                    _characters[edge.DestinationVertex]));
+                _graphViz.AddEdge(new GraphViz<Character>.Edge(Characters[edge.SourceVertex],
+                    Characters[edge.DestinationVertex]));
             }
             
-            foreach (var edge in familyTwo._edges.Values.Where(edge => familyTwo._solution[edge]))
+            foreach (var edge in familyTwo.Edges.Values.Where(edge => familyTwo._solution[edge]))
             {
-                _graphViz.AddEdge(new GraphViz<Character>.Edge(_characters[edge.SourceVertex + familyOne._size],
-                    _characters[edge.DestinationVertex + familyOne._size]));
+                _graphViz.AddEdge(new GraphViz<Character>.Edge(Characters[edge.SourceVertex + familyOne._size],
+                    Characters[edge.DestinationVertex + familyOne._size]));
             }
         }
 
@@ -145,7 +145,7 @@ namespace GameSetup
         /// included in the dictionary.
         /// </summary>
         /// <returns></returns>
-        public Dictionary<ushort, EdgeProposition> GetEdges() => _edges;
+        public Dictionary<ushort, EdgeProposition> GetEdges() => Edges;
 
         /// <summary>
         /// Shows the graph in the GraphVisualizer canvas.
@@ -162,13 +162,13 @@ namespace GameSetup
         {
             if (_solution == null)
             {
-                Debug.Log(_surname + " Families: \n" + _edges.Aggregate("", (current, edge) => current + edge.Key +
+                Debug.Log(_surname + " Families: \n" + Edges.Aggregate("", (current, edge) => current + edge.Key +
                     ": " +
                     edge.Value.SourceVertex + "--" + edge.Value.DestinationVertex + "\n"));
             }
             else
             {
-                Debug.Log(_surname + " Family: \n" + _edges.Where(edge => _solution[edge.Value]).Aggregate("",
+                Debug.Log(_surname + " Family: \n" + Edges.Where(edge => _solution[edge.Value]).Aggregate("",
                     (current, edge) => current + edge.Key + ": " + edge.Value.SourceVertex + "--" +
                                        edge.Value.DestinationVertex + "\n"));
             }

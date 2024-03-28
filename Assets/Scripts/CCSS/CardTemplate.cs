@@ -1,6 +1,7 @@
 ﻿using System;
 using GameSetup;
 using Newtonsoft.Json;
+using UnityEngine.Serialization;
 
 namespace CCSS
 {
@@ -8,7 +9,7 @@ namespace CCSS
     public class CardTemplate
     {
         public Guid ID;
-        public int NumPeopleInvolved; // todo: do i need this?
+        [FormerlySerializedAs("NumPeopleInvolved")] public int NumRoles; // todo: do i need this?
         public string Scenario;
         public string[] Roles; // todo: update in json
         public Choice[] Choices; // todo: might be choice templates
@@ -16,10 +17,10 @@ namespace CCSS
         // enable Type Name Handling and pass that to the deserializer
 
         [JsonConstructor]
-        public CardTemplate(Guid id, int numPeopleInvolved, string scenario, string[] roles, Choice[] choices)
+        public CardTemplate(Guid id, int numRoles, string scenario, string[] roles, Choice[] choices)
         {
             ID = id;
-            NumPeopleInvolved = numPeopleInvolved;
+            NumRoles = numRoles;
             Scenario = scenario;
             Roles = roles;
             Choices = choices;

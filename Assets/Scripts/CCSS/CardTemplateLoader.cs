@@ -7,47 +7,47 @@ using Application = UnityEngine.Device.Application;
 
 namespace CCSS
 {
-    public static class CardLoader
+    public static class CardTemplateLoader
     {
-        public static List<CardTemplate> AllCards;
+        public static List<CardTemplate> AllCardTemplates;
 
-        private static Dictionary<string, CardTemplate> _cardsDictionary;
+        private static Dictionary<string, CardTemplate> _cardTemplatesDictionary;
         private static readonly string PersistentDataPath = $"{Application.persistentDataPath}";
-        private const string PathToCardsJson = "cards.json";
+        private const string PathToCardTemplatesJson = "cards.json";
         
         /// <summary>
         /// Loads all cards from cards.json into the cards dictionary.
         /// </summary>
-        public static void LoadAllCards()
+        public static void LoadAllCardTemplates()
         {
-            if (!File.Exists(Path.Combine(PersistentDataPath, PathToCardsJson)))
+            if (!File.Exists(Path.Combine(PersistentDataPath, PathToCardTemplatesJson)))
             {
                 FileCopier.CheckForCopies();
             }
 
-            _cardsDictionary =
+            _cardTemplatesDictionary =
                 JsonConvert.DeserializeObject<Dictionary<string, CardTemplate>>(
-                    File.ReadAllText(Path.Combine(PersistentDataPath, PathToCardsJson)));
-            FindAllCards();
+                    File.ReadAllText(Path.Combine(PersistentDataPath, PathToCardTemplatesJson)));
+            FindAllCardTemplates();
         }
 
         /// <summary>
         /// Prints all cards to the console.
         /// </summary>
-        public static void PrintAllCards()
+        public static void PrintAllCardTemplates()
         {
-            AllCards.ForEach(card => Debug.Log(card.ToString()));
+            AllCardTemplates.ForEach(card => Debug.Log(card.ToString()));
         }
         
         /// <summary>
-        /// Populates the AllCards list with all available cards.
+        /// Populates the AllCardTemplates list with all available cards.
         /// </summary>
-        private static void FindAllCards()
+        private static void FindAllCardTemplates()
         {
-            AllCards = new List<CardTemplate>();
-            foreach (var card in _cardsDictionary)
+            AllCardTemplates = new List<CardTemplate>();
+            foreach (var card in _cardTemplatesDictionary)
             {
-                AllCards.Add(card.Value);
+                AllCardTemplates.Add(card.Value);
             }
         }
 
@@ -56,8 +56,6 @@ namespace CCSS
         /// </summary>
         /// <param name="key">The cardTemplate number as a string.</param>
         /// <returns>The cardTemplate with the specified number.</returns>
-        public static CardTemplate GetCard(string key) => _cardsDictionary[key];
-
-        // todo: write a function that determines which cards are available to the player based on their progress
+        public static CardTemplate GetCardTemplate(string key) => _cardTemplatesDictionary[key];
     }
 }

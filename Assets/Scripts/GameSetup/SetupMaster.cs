@@ -35,7 +35,7 @@ namespace GameSetup
         private string _familyTwoSurname;
         private static Family _familyOne;
         private static Family _familyTwo;
-        private static Family _combinedFamily;
+        public static Family CombinedFamily;
     
         /// <summary>
         /// Initializes the families, loads all possible cards. 
@@ -49,15 +49,15 @@ namespace GameSetup
             
             _familyOne = new Family(_familyOneSize, _familyOneSurname, minGraphDensity, maxGraphDensity, true);
             _familyTwo = new Family(_familyTwoSize, _familyTwoSurname, minGraphDensity, maxGraphDensity, false);
-            _combinedFamily = new Family(_familyOneSize + _familyTwoSize, _familyOne, _familyTwo);
+            CombinedFamily = new Family(_familyOneSize + _familyTwoSize, _familyOne, _familyTwo);
             
             FileCopier.CheckForCopies(); // todo: remove when game is complete // todo: Wait why did i write this
 
             CreateAllCharacters();
             
-            CardLoader.LoadAllCards();
+            CardTemplateLoader.LoadAllCardTemplates();
             
-            // CardLoader.PrintAllCards();
+            // CardTemplateLoader.PrintAllCardTemplates();
             
             DontDestroyOnLoad(gameObject);
         }
@@ -96,7 +96,7 @@ namespace GameSetup
         {
             _familyOne.SetCharacters(MakeNumCharacters(_familyOneSize));
             _familyTwo.SetCharacters(MakeNumCharacters(_familyTwoSize));
-            _combinedFamily.SetCharacters(_familyOne, _familyTwo); // todo: need to add additional edges between families
+            CombinedFamily.SetCharacters(_familyOne, _familyTwo); // todo: need to add additional edges between families
         }
 
         /// <summary>
@@ -129,8 +129,8 @@ namespace GameSetup
                     _familyTwo.PrintEdges();
                     break;
                 case 3:
-                    _combinedFamily.ShowGraph();
-                    _combinedFamily.PrintEdges();
+                    CombinedFamily.ShowGraph();
+                    CombinedFamily.PrintEdges();
                     break;
             }
             

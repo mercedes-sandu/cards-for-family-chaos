@@ -41,22 +41,22 @@ namespace UI
         }
 
         /// <summary>
-        /// Disables mouse interaction with the cardTemplate and displays the cardTemplate's text and choices.
+        /// Disables mouse interaction with the card and displays the card's text and choices.
         /// </summary>
-        /// <param name="cardTemplate">The cardTemplate that is to be displayed.</param>
+        /// <param name="card">The card that is to be displayed.</param>
         /// <param name="weekNumber">The current week number to be displayed.</param>
-        private void DisplayCard(CardTemplate cardTemplate, int weekNumber)
+        private void DisplayCard(Card card, int weekNumber)
         {
             MainSceneUI.SetCanRotateCard(false);
-            cardText.text = cardTemplate.Scenario;
-            choiceOneText.text = cardTemplate.Choices[0].ChoiceText;
-            choiceTwoText.text = cardTemplate.Choices[1].ChoiceText;
+            cardText.text = card.Scenario;
+            choiceOneText.text = card.ChoiceOne.ChoiceText;
+            choiceTwoText.text = card.ChoiceTwo.ChoiceText;
             _animator.enabled = true;
             _animator.SetBool(SlidingIn, true);
         }
 
         /// <summary>
-        /// Event that plays when the cardTemplate is done sliding in. Called by the animator.
+        /// Event that plays when the card is done sliding in. Called by the animator.
         /// </summary>
         public void DisableAnimator()
         {
@@ -131,7 +131,7 @@ namespace UI
         }
 
         /// <summary>
-        /// Resets cardTemplate state and slides the cardTemplate out of view when the player makes a choice.
+        /// Resets card state and slides the card out of view when the player makes a choice.
         /// </summary>
         /// <param name="choice">The choice that the player made.</param>
         private void SlideCardOut(Choice choice)
@@ -144,7 +144,7 @@ namespace UI
         }
 
         /// <summary>
-        /// Calls the game manager to select a new cardTemplate to display. Called by the animator at the end of the slide out
+        /// Calls the game manager to select a new card to display. Called by the animator at the end of the slide out
         /// animation.
         /// </summary>
         public void SelectNewCard()
