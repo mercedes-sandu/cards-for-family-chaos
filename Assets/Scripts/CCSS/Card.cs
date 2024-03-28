@@ -10,7 +10,7 @@ namespace CCSS
         public readonly string Scenario;
         public readonly Choice ChoiceOne;
         public readonly Choice ChoiceTwo;
-        
+
         private readonly CardTemplate _cardTemplate;
 
         /// <summary>
@@ -41,10 +41,14 @@ namespace CCSS
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
-        private string ReplaceRolesWithCharacters(string text)
-        {
-            return RoleToCharacter.Aggregate(text,
-                (current, pair) => current.Replace(pair.Key, $"{pair.Value.FirstName} {pair.Value.Surname}"));
-        }
+        private string ReplaceRolesWithCharacters(string text) => RoleToCharacter.Aggregate(text,
+            (current, pair) => current.Replace(pair.Key, $"{pair.Value.FirstName} {pair.Value.Surname}"));
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString() =>
+            $"{Scenario}\nChoice 1: {ChoiceOne.ChoiceText}\nChoice 2: {ChoiceTwo.ChoiceText}";
     }
 }

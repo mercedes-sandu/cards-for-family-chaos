@@ -67,13 +67,15 @@ namespace Utility
             {
                 Character characterOne = family.Characters[edge.SourceVertex];
                 Character characterTwo = family.Characters[edge.DestinationVertex];
-                AllCharacters.Add(characterOne);
-                AllCharacters.Add(characterTwo);
                 // todo: relationship type?
-                // generate random affinity pair
                 AffinityPair affinityPair = new AffinityPair((float)Math.Round(Random.Range(-1f, 1f), 2),
                     (float)Math.Round(Random.Range(-1f, 1f), 2));
-                EdgesAndInformation.Add((characterOne, characterTwo), new EdgeInformation(affinityPair));
+                EdgesAndInformation.TryAdd((characterOne, characterTwo), new EdgeInformation(affinityPair));
+            }
+
+            foreach (Character character in family.Characters.Values)
+            {
+                AllCharacters.Add(character);
             }
         }
 

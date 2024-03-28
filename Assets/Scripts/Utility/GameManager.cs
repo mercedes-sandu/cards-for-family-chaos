@@ -12,7 +12,7 @@ namespace Utility
 
         public static Card CurrentCard { get; private set; }
 
-        private static int _currentCardIndex; // todo: remove after preconditions implemented
+        private static int _currentCardIndex = 0; // todo: remove after preconditions implemented
         private static int _weekNumber = 0;
         private static Character[] _allCharacters;
         private static List<Card> _allPossibleCards;
@@ -32,8 +32,16 @@ namespace Utility
             foreach (CardTemplate cardTemplate in CardTemplateLoader.AllCardTemplates)
             {
                 Character[] currentCombination = new Character[cardTemplate.NumRoles];
-                GenerateAllPossibleCardsForTemplate(cardTemplate, currentCombination, 0, cardTemplate.NumRoles - 1, 0);
+                GenerateAllPossibleCardsForTemplate(cardTemplate, currentCombination, 0, _allCharacters.Length - 1, 0);
             }
+
+            // todo: remove
+            foreach (Card card in _allPossibleCards)
+            {
+                Debug.Log(card.ToString());
+            }
+
+            Debug.Log($"generated {_allPossibleCards.Count} cards");
 
             SelectNewCard(Choice.NullChoice());
         }

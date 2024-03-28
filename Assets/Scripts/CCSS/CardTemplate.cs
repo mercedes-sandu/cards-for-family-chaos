@@ -1,7 +1,6 @@
 ﻿using System;
 using GameSetup;
 using Newtonsoft.Json;
-using UnityEngine.Serialization;
 
 namespace CCSS
 {
@@ -9,7 +8,7 @@ namespace CCSS
     public class CardTemplate
     {
         public Guid ID;
-        [FormerlySerializedAs("NumPeopleInvolved")] public int NumRoles; // todo: do i need this?
+        public int NumRoles; // todo: do i need this?
         public string Scenario;
         public string[] Roles; // todo: update in json
         public Choice[] Choices; // todo: might be choice templates

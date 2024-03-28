@@ -1,12 +1,12 @@
 ﻿{
   "0": {
     "ID": "00000000-0000-0000-0000-000000000000",
-    "CardType": 0,
-    "NumPeopleInvolved": 0,
-    "Scenario": "Dummy Card",
+    "NumRoles": 1,
+    "Roles": ["[[X]]"],
+    "Scenario": "[[X]] invites you to dinner.",
     "Choices": [
       {
-        "ChoiceText": "Choice One",
+        "ChoiceText": "Go with them.",
         "CompatibilityModifier": 20,
         "StatModifiers": [
           {
@@ -26,7 +26,7 @@
         "FollowupCard": ""
       },
       {
-        "ChoiceText": "Choice Two",
+        "ChoiceText": "Reject their offer.",
         "CompatibilityModifier": -20,
         "StatModifiers": [
           {
@@ -49,45 +49,45 @@
   },
   "1": {
     "ID": "00000000-0000-0000-0000-000000000001",
-    "CardType": 0,
-    "NumPeopleInvolved": 1,
-    "Scenario": "[[Person X]] approaches you to say BlahBlah.",
+    "NumRoles": 2,
+    "Roles": ["[[X]]", "[[Y]]"],
+    "Scenario": "[[X]] tells you about their plan to pull a prank on [[Y]].",
     "Choices": [
       {
-        "ChoiceText": "Go with them.",
-        "CompatibilityModifier": 5,
+        "ChoiceText": "Join [[X]] in the prank.",
+        "CompatibilityModifier": 20,
         "StatModifiers": [
           {
             "Stat": 0,
-            "Value": -2
+            "Value": 20
           },
           {
             "Stat": 1,
-            "Value": 4
+            "Value": 10
           },
           {
             "Stat": 2,
-            "Value": -10
+            "Value": 0
           }
         ],
         "EdgeModifiers": [],
         "FollowupCard": ""
       },
       {
-        "ChoiceText": "Don't go with them.",
-        "CompatibilityModifier": -5,
+        "ChoiceText": "\"Hey... Maybe you shouldn't...\"",
+        "CompatibilityModifier": -20,
         "StatModifiers": [
           {
             "Stat": 0,
-            "Value": 0
+            "Value": -20
           },
           {
             "Stat": 1,
-            "Value": -4
+            "Value": -10
           },
           {
             "Stat": 2,
-            "Value": 10
+            "Value": 0
           }
         ],
         "EdgeModifiers": [],
