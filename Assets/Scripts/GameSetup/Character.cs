@@ -73,3 +73,9 @@ namespace GameSetup
 // baby in a basket
 // the other family ritually sacrificed your pet parrot
 // your mom joke
+// someone invites you to join their startup
+// you see a young robber run from the convenience store with merchandise they stole. do you shoot to wound?
+// have you heard of our lord and savior?
+// baubau shows up at your door
+
+// todo: play mask of the rose

@@ -10,15 +10,8 @@ namespace Utility
     {
         public float PositiveAffinity;
         public float NegativeAffinity;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public AffinityPair()
-        {
-            PositiveAffinity = float.NaN;
-            NegativeAffinity = float.NaN;
-        }
+        
+        public float NetAffinity => PositiveAffinity - NegativeAffinity;
 
         /// <summary>
         /// 
@@ -30,12 +23,6 @@ namespace Utility
             PositiveAffinity = positiveAffinity;
             NegativeAffinity = negativeAffinity;
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public bool IsNullAffinityPair() => float.IsNaN(PositiveAffinity) && float.IsNaN(NegativeAffinity);
     }
 
     public class EdgeInformation
@@ -99,7 +86,7 @@ namespace Utility
         /// <returns></returns>
         public AffinityPair GetAffinityPair(Character characterOne, Character characterTwo)
         {
-            if (!AreConnected(characterOne, characterTwo)) return new AffinityPair();
+            if (!AreConnected(characterOne, characterTwo)) return null;
 
             EdgesAndInformation.TryGetValue((characterOne, characterTwo), out EdgeInformation edgeInformation);
 
@@ -107,7 +94,7 @@ namespace Utility
 
             EdgesAndInformation.TryGetValue((characterTwo, characterOne), out edgeInformation);
 
-            return edgeInformation != null ? edgeInformation.AffinityPair : new AffinityPair();
+            return edgeInformation?.AffinityPair;
         }
     }
 }

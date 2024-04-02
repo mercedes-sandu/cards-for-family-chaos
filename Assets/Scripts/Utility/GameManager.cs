@@ -35,12 +35,6 @@ namespace Utility
                 GenerateAllPossibleCardsForTemplate(cardTemplate, currentCombination, 0, _allCharacters.Length - 1, 0);
             }
 
-            // todo: remove
-            foreach (Card card in _allPossibleCards)
-            {
-                Debug.Log(card.ToString());
-            }
-
             Debug.Log($"generated {_allPossibleCards.Count} cards");
 
             SelectNewCard(Choice.NullChoice());
