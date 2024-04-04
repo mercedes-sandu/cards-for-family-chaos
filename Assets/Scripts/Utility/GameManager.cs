@@ -2,6 +2,7 @@
 using System.Linq;
 using CCSS;
 using GameSetup;
+using UI;
 using UnityEngine;
 
 namespace Utility
@@ -11,6 +12,10 @@ namespace Utility
         public static InGameGraph InGameGraph;
 
         public static Card CurrentCard { get; private set; }
+
+        public static int CurrentCompatibility { get; private set; }
+
+        [SerializeField] private StatBar compatibilityBar;
 
         private static int _currentCardIndex = 0; // todo: remove after preconditions implemented
         private static int _weekNumber = 0;
@@ -29,6 +34,8 @@ namespace Utility
             _allPossibleCards = new List<Card>();
             _allCharacters = InGameGraph.AllCharacters.ToArray();
 
+            CurrentCompatibility = compatibilityBar.GetValue();
+                
             foreach (CardTemplate cardTemplate in CardTemplateLoader.AllCardTemplates)
             {
                 Character[] currentCombination = new Character[cardTemplate.NumRoles];

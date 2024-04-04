@@ -103,7 +103,6 @@ namespace GraphVisualizing.GraphVisualization
         private void SetImageColor(Color color)
         {
             if (_image == null) return;
-            // color.a = 0.3f; // todo: i removed this
             _image.color = color;
         }
 

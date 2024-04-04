@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CatSAT.SAT;
+using CCSS;
 using GameSetup;
 using Random = UnityEngine.Random;
 
@@ -64,6 +65,8 @@ namespace Utility
             {
                 AllCharacters.Add(character);
             }
+            
+            GameEvent.OnChoiceMade += UpdateGraph;
         }
 
         /// <summary>
@@ -95,6 +98,23 @@ namespace Utility
             EdgesAndInformation.TryGetValue((characterTwo, characterOne), out edgeInformation);
 
             return edgeInformation?.AffinityPair;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="choice"></param>
+        private void UpdateGraph(Choice choice)
+        {
+            // todo: fill
+        }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        ~InGameGraph()
+        {
+            GameEvent.OnChoiceMade -= UpdateGraph;
         }
     }
 }

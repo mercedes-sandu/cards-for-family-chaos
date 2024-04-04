@@ -298,7 +298,7 @@ namespace GraphVisualizing.GraphVisualization
             style ??= NodeStyles[0];
             var go = Instantiate(familyOne ? familyOneNodePrefab : familyTwoNodePrefab, transform);
             go.name = label;
-            go.GetComponent<FamilyMemberNode>()?.SetupNode(node as Character, familyOne); // todo: will this work?
+            go.GetComponent<FamilyMemberNode>()?.SetupNode(node as Character, familyOne);
             var rect = rectTransform.rect;
             var position = new Vector2(Random.Range(rect.xMin, rect.xMax), Random.Range(rect.yMin, rect.yMax));
             var internalNode = go.GetComponent<GraphNode>();

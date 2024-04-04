@@ -22,6 +22,10 @@ namespace UI
         [SerializeField] private float barMoveTime;
         [SerializeField] private float dotFadeTime;
 
+        [SerializeField] private bool randomizeStartValue = false;
+        [SerializeField] private int minRandomStartValue;
+        [SerializeField] private int maxRandomStartValue;
+
         private int _currentValue;
         private bool _dotCoroutineRunning = false;
         private Coroutine _dotCoroutine;
@@ -42,13 +46,19 @@ namespace UI
         {
             _animator = GetComponent<Animator>();
             
-            _currentValue = maxValue;
+            _currentValue = randomizeStartValue ? Random.Range(minRandomStartValue, maxRandomStartValue) : maxValue;
             
             dot.color = new Color(dot.color.r, dot.color.g, dot.color.b, 0);
 
             GameEvent.OnChoiceHover += UpdateDot;
             GameEvent.OnChoiceMade += UpdateBar;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public int GetValue() => _currentValue;
 
         /// <summary>
         /// Fades the dot above the stat bar in or out depending on whether the stat corresponding to this stat bar is
