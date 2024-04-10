@@ -40,10 +40,16 @@ namespace UI
         {
             _compatibilityBarAnimator = compatibilityBar.transform.parent.parent.GetComponent<Animator>();
 
-            _currentCompatibilityValue = maxCompatibilityValue;
-
             GameEvent.OnCardSelected += UpdateWeek;
             GameEvent.OnChoiceMade += UpdateCompatibilityBar;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void Start()
+        {
+            _currentCompatibilityValue = maxCompatibilityValue;
         }
 
         /// <summary>

@@ -94,6 +94,14 @@ namespace Preconditions
         }
     }
 
+    public class FamilyCompatibility : IntExpression
+    {
+        public override int Evaluate(Card card)
+        {
+            return GameManager.CurrentCompatibility;
+        }
+    }
+
     public class FloatConstant : FloatExpression
     {
         private readonly float _value;

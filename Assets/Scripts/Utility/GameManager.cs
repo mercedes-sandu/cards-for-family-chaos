@@ -2,7 +2,6 @@
 using System.Linq;
 using CCSS;
 using GameSetup;
-using UI;
 using UnityEngine;
 
 namespace Utility
@@ -15,7 +14,8 @@ namespace Utility
 
         public static int CurrentCompatibility { get; private set; }
 
-        [SerializeField] private StatBar compatibilityBar;
+        [SerializeField] private int minStartCompatibility = 5;
+        [SerializeField] private int maxStartCompatibility = 20;
 
         private static int _currentCardIndex = 0; // todo: remove after preconditions implemented
         private static int _weekNumber = 0;
@@ -23,6 +23,14 @@ namespace Utility
         private static List<Card> _allPossibleCards;
         private static List<Card> _cardsShown; // todo: do i need this?
 
+        /// <summary>
+        /// 
+        /// </summary>
+        private void Awake()
+        {
+            CurrentCompatibility = Random.Range(minStartCompatibility, maxStartCompatibility);
+        }
+        
         /// <summary>
         /// Selects the first cardTemplate to display to the player.
         /// Note: At this point, all cards have been loaded by CardTemplateLoader.
@@ -33,8 +41,6 @@ namespace Utility
             _cardsShown = new List<Card>();
             _allPossibleCards = new List<Card>();
             _allCharacters = InGameGraph.AllCharacters.ToArray();
-
-            CurrentCompatibility = compatibilityBar.GetValue();
                 
             foreach (CardTemplate cardTemplate in CardTemplateLoader.AllCardTemplates)
             {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CatSAT.SAT;
 using CCSS;
 using GameSetup;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Utility
@@ -11,7 +12,7 @@ namespace Utility
     {
         public float PositiveAffinity;
         public float NegativeAffinity;
-        
+
         public float NetAffinity => PositiveAffinity - NegativeAffinity;
 
         /// <summary>
@@ -42,6 +43,8 @@ namespace Utility
         public Dictionary<(Character, Character), EdgeInformation> EdgesAndInformation;
         public HashSet<Character> AllCharacters;
 
+        private Card _currentCard;
+
         /// <summary>
         /// 
         /// </summary>
@@ -58,15 +61,30 @@ namespace Utility
                 // todo: relationship type?
                 AffinityPair affinityPair = new AffinityPair((float)Math.Round(Random.Range(-1f, 1f), 2),
                     (float)Math.Round(Random.Range(-1f, 1f), 2));
-                EdgesAndInformation.TryAdd((characterOne, characterTwo), new EdgeInformation(affinityPair));
+                AddEdge(characterOne, characterTwo, affinityPair);
             }
 
             foreach (Character character in family.Characters.Values)
             {
                 AllCharacters.Add(character);
             }
-            
+
+            GameEvent.OnCardSelected += UpdateCurrentCard;
             GameEvent.OnChoiceMade += UpdateGraph;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="characterOne"></param>
+        /// <param name="characterTwo"></param>
+        /// <param name="affinityPair"></param>
+        private void AddEdge(Character characterOne, Character characterTwo, AffinityPair affinityPair)
+        {
+            bool firstOrderAdd = EdgesAndInformation.TryAdd((characterOne, characterTwo), new EdgeInformation(affinityPair));
+
+            if (firstOrderAdd) return;
+            EdgesAndInformation.TryAdd((characterTwo, characterOne), new EdgeInformation(affinityPair));
         }
 
         /// <summary>
@@ -103,17 +121,44 @@ namespace Utility
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="card"></param>
+        /// <param name="weekNumber"></param>
+        private void UpdateCurrentCard(Card card, int weekNumber)
+        {
+            _currentCard = card;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="choice"></param>
         private void UpdateGraph(Choice choice)
         {
-            // todo: fill
+            foreach (EdgeModifier edgeModifier in choice.EdgeModifiers)
+            {
+                Character characterOne = _currentCard.GetRoleCharacter(edgeModifier.RoleOne);
+                Character characterTwo = _currentCard.GetRoleCharacter(edgeModifier.RoleTwo);
+                AffinityPair potentialAffinityPair = GetAffinityPair(characterOne, characterTwo);
+
+                if (potentialAffinityPair == null)
+                {
+                    AddEdge(characterOne, characterTwo, new AffinityPair(edgeModifier.PositiveModifier,
+                        edgeModifier.NegativeModifier));
+                }
+                else
+                {
+                    potentialAffinityPair.PositiveAffinity += Mathf.Clamp(edgeModifier.PositiveModifier, 0f, 1f);
+                    potentialAffinityPair.NegativeAffinity += Mathf.Clamp(edgeModifier.NegativeModifier, 0f, 1f);
+                }
+            }
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
         ~InGameGraph()
         {
+            GameEvent.OnCardSelected -= UpdateCurrentCard;
             GameEvent.OnChoiceMade -= UpdateGraph;
         }
     }

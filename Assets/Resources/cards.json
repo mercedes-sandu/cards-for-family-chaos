@@ -7,31 +7,11 @@
     "Choices": [
       {
         "ChoiceText": "Go with them.",
-        "CompatibilityModifier": 20,
+        "CompatibilityModifier": 2,
         "StatModifiers": [
           {
             "Stat": 0,
-            "Value": 20
-          },
-          {
-            "Stat": 1,
-            "Value": 10
-          },
-          {
-            "Stat": 2,
             "Value": 0
-          }
-        ],
-        "EdgeModifiers": [],
-        "FollowupCard": ""
-      },
-      {
-        "ChoiceText": "Reject their offer.",
-        "CompatibilityModifier": -20,
-        "StatModifiers": [
-          {
-            "Stat": 0,
-            "Value": -20
           },
           {
             "Stat": 1,
@@ -39,10 +19,44 @@
           },
           {
             "Stat": 2,
+            "Value": 5
+          }
+        ],
+        "EdgeModifiers": [
+          {
+            "RoleOne": "[[X]]",
+            "RoleTwo": "[[P]]",
+            "PositiveModifier": 0.1,
+            "NegativeModifier": -0.1
+          }
+        ],
+        "FollowupCard": ""
+      },
+      {
+        "ChoiceText": "Reject their offer.",
+        "CompatibilityModifier": -2,
+        "StatModifiers": [
+          {
+            "Stat": 0,
+            "Value": 0
+          },
+          {
+            "Stat": 1,
+            "Value": 0
+          },
+          {
+            "Stat": 2,
             "Value": 0
           }
         ],
-        "EdgeModifiers": [],
+        "EdgeModifiers": [
+          {
+            "RoleOne": "[[X]]",
+            "RoleTwo": "[[P]]",
+            "PositiveModifier": 0,
+            "NegativeModifier": 0.1
+          }
+        ],
         "FollowupCard": ""
       }
     ]

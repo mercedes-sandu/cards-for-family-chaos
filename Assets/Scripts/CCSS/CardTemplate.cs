@@ -11,6 +11,7 @@ namespace CCSS
         public int NumRoles; // todo: do i need this?
         public string Scenario;
         public string[] Roles; // todo: update in json
+
         public Choice[] Choices; // todo: might be choice templates
         // todo: will have list of preconditions.. need subtypes
         // enable Type Name Handling and pass that to the deserializer
@@ -24,7 +25,7 @@ namespace CCSS
             Roles = roles;
             Choices = choices;
         }
-        
+
         public override string ToString()
         {
             return JsonConvert.SerializeObject(this);
@@ -36,12 +37,12 @@ namespace CCSS
         public string ChoiceText;
         public int CompatibilityModifier;
         public StatModifier[] StatModifiers;
-        public int[] EdgeModifiers;
+        public EdgeModifier[] EdgeModifiers;
         public string FollowupCard;
 
         [JsonConstructor]
-        public Choice(string choiceText, int compatibilityModifier, StatModifier[] statModifiers, int[] edgeModifiers,
-            string followupCard)
+        public Choice(string choiceText, int compatibilityModifier, StatModifier[] statModifiers,
+            EdgeModifier[] edgeModifiers, string followupCard)
         {
             ChoiceText = choiceText;
             CompatibilityModifier = compatibilityModifier;
@@ -55,14 +56,14 @@ namespace CCSS
         /// </summary>
         /// <returns>The null choice.</returns>
         public static Choice NullChoice() =>
-            new("", int.MaxValue, Array.Empty<StatModifier>(), Array.Empty<int>(), "null");
+            new("", int.MaxValue, Array.Empty<StatModifier>(), Array.Empty<EdgeModifier>(), "null");
 
         /// <summary>
         /// Returns whether the choice has a followup cardTemplate that will be presented to the player once the choice is made.
         /// </summary>
         /// <returns>True if there is a followup cardTemplate (has a number string), false otherwise.</returns>
         public bool HasFollowup() => !FollowupCard.Equals("") && !FollowupCard.Equals("null");
-        
+
         public override string ToString()
         {
             return JsonConvert.SerializeObject(this);
@@ -80,7 +81,29 @@ namespace CCSS
             Stat = stat;
             Value = value;
         }
-        
+
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
+    }
+
+    public class EdgeModifier
+    {
+        public string RoleOne;
+        public string RoleTwo;
+        public float PositiveModifier;
+        public float NegativeModifier;
+
+        [JsonConstructor]
+        public EdgeModifier(string roleOne, string roleTwo, float positiveModifier, float negativeModifier)
+        {
+            RoleOne = roleOne;
+            RoleTwo = roleTwo;
+            PositiveModifier = positiveModifier;
+            NegativeModifier = negativeModifier;
+        }
+
         public override string ToString()
         {
             return JsonConvert.SerializeObject(this);

@@ -7,6 +7,8 @@ namespace GameSetup
 {
     public class Player : MonoBehaviour
     {
+        public static string PlayerRole = "[[P]]";
+        
         [SerializeField] private StatBar reputationBar;
         [SerializeField] private StatBar moneyBar;
         [SerializeField] private StatBar healthBar;
