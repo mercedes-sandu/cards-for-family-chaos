@@ -14,10 +14,11 @@ namespace CCSS
         private readonly CardTemplate _cardTemplate;
 
         /// <summary>
-        /// 
+        /// Initializes a new Card instance with populated roles.
         /// </summary>
-        /// <param name="cardTemplate"></param>
-        /// <param name="roleToCharacter"></param>
+        /// <param name="cardTemplate">The card template being used for this card instance.</param>
+        /// <param name="roleToCharacter">A dictionary mapping role string to character that will fill that
+        /// role.</param>
         public Card(CardTemplate cardTemplate, Dictionary<string, Character> roleToCharacter)
         {
             _cardTemplate = cardTemplate;
@@ -30,24 +31,20 @@ namespace CCSS
         }
 
         /// <summary>
-        /// 
+        /// Returns the character that fills the specified role.
         /// </summary>
-        /// <param name="roleName"></param>
-        /// <returns></returns>
+        /// <param name="roleName">The role name, for example, "[[X]]".</param>
+        /// <returns>The role's filled character.</returns>
         public Character GetRoleCharacter(string roleName) => RoleToCharacter[roleName];
 
         /// <summary>
-        /// 
+        /// Replaces role placeholders in the text with the actual character names.
         /// </summary>
-        /// <param name="text"></param>
-        /// <returns></returns>
+        /// <param name="text">The text to reformat.</param>
+        /// <returns>The reformatted text.</returns>
         private string ReplaceRolesWithCharacters(string text) => RoleToCharacter.Aggregate(text,
             (current, pair) => current.Replace(pair.Key, $"{pair.Value.FirstName} {pair.Value.Surname}"));
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
+        
         public override string ToString() =>
             $"{Scenario}\nChoice 1: {ChoiceOne.ChoiceText}\nChoice 2: {ChoiceTwo.ChoiceText}";
     }

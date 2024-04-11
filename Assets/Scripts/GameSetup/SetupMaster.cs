@@ -20,7 +20,6 @@ namespace GameSetup
         // variables for family generation
         [SerializeField] private int minFamilySize;
         [SerializeField] private int maxFamilySize;
-
         [SerializeField] private float minGraphDensity;
         [SerializeField] private float maxGraphDensity;
         
@@ -47,19 +46,17 @@ namespace GameSetup
             _familyTwo = new Family(_familyTwoSize, _familyTwoSurname, minGraphDensity, maxGraphDensity, false);
             CombinedFamily = new Family(_familyOneSize + _familyTwoSize, _familyOne, _familyTwo);
             
-            FileCopier.CheckForCopies(); // todo: remove when game is complete // todo: Wait why did i write this
+            FileCopier.CheckForCopies(); // todo: remove this line when building because it is already called in start menu
 
             CreateAllCharacters();
             
             CardTemplateLoader.LoadAllCardTemplates();
             
-            // CardTemplateLoader.PrintAllCardTemplates();
-            
             DontDestroyOnLoad(gameObject);
         }
 
         /// <summary>
-        /// 
+        /// Sets up the button tabs corresponding to the different families and by default shows the first family.
         /// </summary>
         private void Start()
         {

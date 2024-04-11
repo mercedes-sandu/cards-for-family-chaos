@@ -24,7 +24,7 @@ namespace Utility
         private static List<Card> _cardsShown; // todo: do i need this?
 
         /// <summary>
-        /// 
+        /// Randomly sets the starting compatibility value between the two families.
         /// </summary>
         private void Awake()
         {
@@ -54,13 +54,13 @@ namespace Utility
         }
 
         /// <summary>
-        /// 
+        /// Recursively generates all possible cards (with filled character roles) for a given cardTemplate.
         /// </summary>
-        /// <param name="cardTemplate"></param>
-        /// <param name="currentCombination"></param>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
-        /// <param name="index"></param>
+        /// <param name="cardTemplate">The card template to be filled.</param>
+        /// <param name="currentCombination">The current combination of characters to fill the roles.</param>
+        /// <param name="start">The start index.</param>
+        /// <param name="end">The end index.</param>
+        /// <param name="index">The current index.</param>
         private void GenerateAllPossibleCardsForTemplate(CardTemplate cardTemplate, Character[] currentCombination,
             int start, int end, int index)
         {

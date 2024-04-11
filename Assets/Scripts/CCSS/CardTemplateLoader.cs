@@ -16,7 +16,7 @@ namespace CCSS
         private const string PathToCardTemplatesJson = "cards.json";
         
         /// <summary>
-        /// Loads all cards from cards.json into the cards dictionary.
+        /// Loads all card templates from cards.json into the card templates dictionary.
         /// </summary>
         public static void LoadAllCardTemplates()
         {
@@ -32,7 +32,7 @@ namespace CCSS
         }
 
         /// <summary>
-        /// Prints all cards to the console.
+        /// Prints all card templates to the console.
         /// </summary>
         public static void PrintAllCardTemplates()
         {
@@ -40,7 +40,7 @@ namespace CCSS
         }
         
         /// <summary>
-        /// Populates the AllCardTemplates list with all available cards.
+        /// Populates the AllCardTemplates list with all available card templates.
         /// </summary>
         private static void FindAllCardTemplates()
         {
@@ -52,10 +52,10 @@ namespace CCSS
         }
 
         /// <summary>
-        /// Returns the cardTemplate corresponding to the specified string key.
+        /// Returns the card template corresponding to the specified string key.
         /// </summary>
-        /// <param name="key">The cardTemplate number as a string.</param>
-        /// <returns>The cardTemplate with the specified number.</returns>
+        /// <param name="key">The card template number as a string.</param>
+        /// <returns>The card template with the specified number.</returns>
         public static CardTemplate GetCardTemplate(string key) => _cardTemplatesDictionary[key];
     }
 }

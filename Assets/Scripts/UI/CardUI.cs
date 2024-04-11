@@ -47,7 +47,6 @@ namespace UI
         /// <param name="weekNumber">The current week number to be displayed.</param>
         private void DisplayCard(Card card, int weekNumber)
         {
-            MainSceneUI.SetCanRotateCard(false);
             cardText.text = card.Scenario;
             choiceOneText.text = card.ChoiceOne.ChoiceText;
             choiceTwoText.text = card.ChoiceTwo.ChoiceText;
@@ -61,7 +60,6 @@ namespace UI
         public void DisableAnimator()
         {
             _animator.enabled = false;
-            MainSceneUI.SetCanRotateCard(true);
         }
 
         /// <summary>

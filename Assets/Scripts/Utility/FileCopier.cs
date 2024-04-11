@@ -26,7 +26,7 @@ namespace Utility
             TextAsset[] allInflectionsFiles = Resources.LoadAll<TextAsset>(InflectionsFolder);
             TextAsset cardsJson = Resources.Load<TextAsset>(ResourcesCardsJsonPath);
 
-            foreach (var file in allImaginariumFiles)
+            foreach (TextAsset file in allImaginariumFiles)
             {
                 string fileName = $"{file.name}{(file.text.Contains(GenFileIndicator) ? GenExtension : TxtExtension)}";
                 string txtFileName = $"{file.name}{TxtExtension}";
@@ -45,7 +45,7 @@ namespace Utility
 
             MakeInflectionDirectory();
 
-            foreach (var file in allInflectionsFiles)
+            foreach (TextAsset file in allInflectionsFiles)
             {
                 string fileName = $"{file.name}{(file.text.Contains(CsvFileIndicator) ? CsvExtension : TxtExtension)}";
                 string txtFileName = $"{file.name}{TxtExtension}";

@@ -111,7 +111,7 @@ namespace GameSetup
             }
 
             // todo: is there a way to specify which node styles to use for which nodes?
-            foreach (var (index, edge) in EdgesInSolution)
+            foreach ((ushort index, EdgeProposition edge) in EdgesInSolution)
             {
                 _graphViz.AddEdge(new GraphViz<Character>.Edge(Characters[edge.SourceVertex],
                     Characters[edge.DestinationVertex]));
@@ -125,23 +125,23 @@ namespace GameSetup
         /// <param name="familyTwo">The second family which was generated.</param>
         public void SetCharacters(Family familyOne, Family familyTwo)
         {
-            foreach (var (index, character) in familyOne.Characters)
+            foreach ((int index, Character character) in familyOne.Characters)
             {
                 Characters.Add(index, character);
             }
 
-            foreach (var (index, character) in familyTwo.Characters)
+            foreach ((int index, Character character) in familyTwo.Characters)
             {
                 Characters.Add(index + familyOne._size, character);
             }
 
-            foreach (var edge in familyOne.EdgesInSolution.Values)
+            foreach (EdgeProposition edge in familyOne.EdgesInSolution.Values)
             {
                 _graphViz.AddEdge(new GraphViz<Character>.Edge(Characters[edge.SourceVertex],
                     Characters[edge.DestinationVertex]));
             }
 
-            foreach (var edge in familyTwo.EdgesInSolution.Values)
+            foreach (EdgeProposition edge in familyTwo.EdgesInSolution.Values)
             {
                 _graphViz.AddEdge(new GraphViz<Character>.Edge(Characters[edge.SourceVertex + familyOne._size],
                     Characters[edge.DestinationVertex + familyOne._size]));

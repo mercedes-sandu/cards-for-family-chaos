@@ -8,11 +8,10 @@ namespace CCSS
     public class CardTemplate
     {
         public Guid ID;
-        public int NumRoles; // todo: do i need this?
+        public int NumRoles;
         public string Scenario;
-        public string[] Roles; // todo: update in json
-
-        public Choice[] Choices; // todo: might be choice templates
+        public string[] Roles;
+        public Choice[] Choices;
         // todo: will have list of preconditions.. need subtypes
         // enable Type Name Handling and pass that to the deserializer
 
@@ -26,10 +25,7 @@ namespace CCSS
             Choices = choices;
         }
 
-        public override string ToString()
-        {
-            return JsonConvert.SerializeObject(this);
-        }
+        public override string ToString() => JsonConvert.SerializeObject(this);
     }
 
     public class Choice
@@ -64,10 +60,7 @@ namespace CCSS
         /// <returns>True if there is a followup cardTemplate (has a number string), false otherwise.</returns>
         public bool HasFollowup() => !FollowupCard.Equals("") && !FollowupCard.Equals("null");
 
-        public override string ToString()
-        {
-            return JsonConvert.SerializeObject(this);
-        }
+        public override string ToString() => JsonConvert.SerializeObject(this);
     }
 
     public class StatModifier
@@ -82,10 +75,7 @@ namespace CCSS
             Value = value;
         }
 
-        public override string ToString()
-        {
-            return JsonConvert.SerializeObject(this);
-        }
+        public override string ToString() => JsonConvert.SerializeObject(this);
     }
 
     public class EdgeModifier
@@ -104,10 +94,7 @@ namespace CCSS
             NegativeModifier = negativeModifier;
         }
 
-        public override string ToString()
-        {
-            return JsonConvert.SerializeObject(this);
-        }
+        public override string ToString() => JsonConvert.SerializeObject(this);
     }
 }
 

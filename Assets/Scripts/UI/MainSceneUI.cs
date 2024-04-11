@@ -21,7 +21,6 @@ namespace UI
         private int _currentCompatibilityValue;
 
         // card rotation toward mouse
-        private static bool _canRotateCard = false;
         private const float MaxCardRotation = 10f;
         private Coroutine _cardRotationCoroutine;
         private bool _cardRotationCoroutineRunning = false;
@@ -45,19 +44,13 @@ namespace UI
         }
 
         /// <summary>
-        /// 
+        /// Sets the family compatibility.
         /// </summary>
         private void Start()
         {
-            _currentCompatibilityValue = maxCompatibilityValue;
+            _currentCompatibilityValue = GameManager.CurrentCompatibility;
+            compatibilityBar.fillAmount = (float)_currentCompatibilityValue / maxCompatibilityValue;
         }
-
-        /// <summary>
-        /// Sets the variable that determines whether the card can be rotated toward the mouse.
-        /// </summary>
-        /// <param name="canRotateCard">True if the card can be rotated toward the player's mouse position, false
-        /// otherwise.</param>
-        public static void SetCanRotateCard(bool canRotateCard) => _canRotateCard = canRotateCard;
 
         /// <summary>
         /// Stops any coroutines that are currently running.
@@ -174,7 +167,6 @@ namespace UI
         public void MakeChoice(bool towardChoiceOne)
         {
             _lastMadeChoice = towardChoiceOne ? GameManager.CurrentCard.ChoiceOne : GameManager.CurrentCard.ChoiceTwo;
-            _canRotateCard = false;
             ResetCardPositionChoice(towardChoiceOne);
         }
 
@@ -241,6 +233,7 @@ namespace UI
         /// </summary>
         public void PauseButton()
         {
+            // todo: do
         }
 
         /// <summary>
@@ -248,6 +241,7 @@ namespace UI
         /// </summary>
         public void FamiliesButton()
         {
+            // todo: do
         }
 
         /// <summary>

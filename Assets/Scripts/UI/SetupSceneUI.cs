@@ -99,11 +99,13 @@ namespace UI
         }
 
         /// <summary>
-        /// 
+        /// Updates the character information text and enables the play as character button when a family member node is
+        /// selected.
         /// </summary>
-        /// <param name="characterSelected"></param>
-        /// <param name="familyOne"></param>
-        /// <param name="nodeSelected"></param>
+        /// <param name="characterSelected">The character that has been selected by the player.</param>
+        /// <param name="familyOne">True if the selected character is in the first family, false if the selected
+        /// character is in the second family.</param>
+        /// <param name="nodeSelected">The node button pressed by the player.</param>
         public void FamilyMemberNodeSelected(Character characterSelected, bool familyOne, FamilyMemberNode nodeSelected)
         {
             _playAsCharacterButtonText.text = $"Play as {characterSelected.FirstName} {characterSelected.Surname}";
@@ -125,7 +127,7 @@ namespace UI
         }
 
         /// <summary>
-        /// 
+        /// Sets the player's character and family to the currently selected character and family, loads the main game.
         /// </summary>
         public void PlayAsButtonPressed()
         {

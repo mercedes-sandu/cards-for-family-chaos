@@ -17,10 +17,12 @@ namespace Utility
         public float NetAffinity => PositiveAffinity - NegativeAffinity;
 
         /// <summary>
-        /// 
+        /// Initializes the affinity pair with the given values.
         /// </summary>
-        /// <param name="positiveAffinity"></param>
-        /// <param name="negativeAffinity"></param>
+        /// <param name="positiveAffinity">The positive affinity (how strongly the characters like each other on a scale
+        /// of 0 to 1).</param>
+        /// <param name="negativeAffinity">The negative affinity (how strongly the characters dislike each other on a
+        /// scale of 0 to 1).</param>
         public AffinityPair(float positiveAffinity, float negativeAffinity)
         {
             PositiveAffinity = positiveAffinity;
@@ -47,9 +49,9 @@ namespace Utility
         private Card _currentCard;
 
         /// <summary>
-        /// 
+        /// Initializes the in-game graph representation with the two generated families. Subscribes to game events.
         /// </summary>
-        /// <param name="family"></param>
+        /// <param name="family">The combined family.</param>
         public InGameGraph(Family family)
         {
             EdgesAndInformation = new Dictionary<(Character, Character), EdgeInformation>();
@@ -64,7 +66,7 @@ namespace Utility
                     (float)Math.Round(Random.Range(-1f, 1f), 2));
                 AddEdge(characterOne, characterTwo, affinityPair);
             }
-            
+
             foreach (var character in family.Characters.Values.Where(character => character != Player.PlayerCharacter))
             {
                 AllCharacters.Add(character);
@@ -75,11 +77,11 @@ namespace Utility
         }
 
         /// <summary>
-        /// 
+        /// Adds an edge between two characters with the given affinity pair.
         /// </summary>
-        /// <param name="characterOne"></param>
-        /// <param name="characterTwo"></param>
-        /// <param name="affinityPair"></param>
+        /// <param name="characterOne">The first character.</param>
+        /// <param name="characterTwo">The second character.</param>
+        /// <param name="affinityPair">The affinity pair between the two characters.</param>
         private void AddEdge(Character characterOne, Character characterTwo, AffinityPair affinityPair)
         {
             bool firstOrderAdd =
@@ -90,11 +92,11 @@ namespace Utility
         }
 
         /// <summary>
-        /// 
+        /// Returns whether the two characters are connected by a single edge.
         /// </summary>
-        /// <param name="characterOne"></param>
-        /// <param name="characterTwo"></param>
-        /// <returns></returns>
+        /// <param name="characterOne">The first character.</param>
+        /// <param name="characterTwo">The second character.</param>
+        /// <returns>True if there exists an edge between the two characters, false otherwise.</returns>
         public bool AreConnected(Character characterOne, Character characterTwo)
         {
             return EdgesAndInformation.ContainsKey((characterOne, characterTwo)) ||
@@ -102,11 +104,11 @@ namespace Utility
         }
 
         /// <summary>
-        /// 
+        /// Returns the affinity pair between the two characters, if there is an edge present between them.
         /// </summary>
-        /// <param name="characterOne"></param>
-        /// <param name="characterTwo"></param>
-        /// <returns></returns>
+        /// <param name="characterOne">The first character.</param>
+        /// <param name="characterTwo">The second character.</param>
+        /// <returns>The affinity pair or null.</returns>
         public AffinityPair GetAffinityPair(Character characterOne, Character characterTwo)
         {
             if (!AreConnected(characterOne, characterTwo)) return null;
@@ -121,19 +123,21 @@ namespace Utility
         }
 
         /// <summary>
-        /// 
+        /// Updates the current card being displayed when a new one has been selected.
         /// </summary>
-        /// <param name="card"></param>
-        /// <param name="weekNumber"></param>
+        /// <param name="card">The card.</param>
+        /// <param name="weekNumber">The new week number.</param>
         private void UpdateCurrentCard(Card card, int weekNumber)
         {
             _currentCard = card;
         }
 
         /// <summary>
-        /// 
+        /// Updates the in-game graph by updating the affinities between characters based on the choice made by the
+        /// player. If the characters are not connected by an edge, a new edge is added. Otherwise, the existing edge is
+        /// updated.
         /// </summary>
-        /// <param name="choice"></param>
+        /// <param name="choice">The choice made by the player.</param>
         private void UpdateGraph(Choice choice)
         {
             foreach (EdgeModifier edgeModifier in choice.EdgeModifiers)
@@ -156,7 +160,7 @@ namespace Utility
         }
 
         /// <summary>
-        /// 
+        /// Unsubscribes from game events.
         /// </summary>
         ~InGameGraph()
         {

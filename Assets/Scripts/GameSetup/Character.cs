@@ -55,11 +55,7 @@ namespace GameSetup
 
             // Debug.Log(string.Join(", ", properties.Select(property => $"{property.Key} : {property.Value}")));
         }
-
-        /// <summary>
-        /// Returns a string representation of the character.
-        /// </summary>
-        /// <returns>The character.</returns>
+        
         public override string ToString()
         {
             // todo: add likes and dislikes
