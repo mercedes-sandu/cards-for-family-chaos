@@ -716,8 +716,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ddffa6276a3cee4fa364fa5eac7afc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minFamilySize: 3
-  maxFamilySize: 3
+  minFamilySize: 4
+  maxFamilySize: 8
   minGraphDensity: 0.4
   maxGraphDensity: 0.6
 --- !u!114 &662110190

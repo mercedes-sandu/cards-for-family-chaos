@@ -65,8 +65,6 @@ namespace Utility
                 AddEdge(characterOne, characterTwo, affinityPair);
             }
             
-            Debug.Log(EdgesAndInformation);
-            
             foreach (var character in family.Characters.Values.Where(character => character != Player.PlayerCharacter))
             {
                 AllCharacters.Add(character);
@@ -148,8 +146,6 @@ namespace Utility
                 {
                     AddEdge(characterOne, characterTwo, new AffinityPair(edgeModifier.PositiveModifier,
                         edgeModifier.NegativeModifier));
-                    Debug.Log(
-                        $"Added edge between {characterOne.FirstName} and {characterTwo.FirstName} with positive affinity {edgeModifier.PositiveModifier} and negative affinity {edgeModifier.NegativeModifier}");
                 }
                 else
                 {
