@@ -351,7 +351,7 @@ namespace GraphVisualizing
         }
         #endregion
         
-        #region Edges
+        #region AllPossibleEdges
         /// <summary>
         /// The set of all edges in the graph
         /// </summary>
@@ -423,7 +423,7 @@ namespace GraphVisualizing
 
             /// <summary>
             /// True if two edges are the same.
-            /// Edges are the same if they have the same start and end nodes, directedness, and label.
+            /// AllPossibleEdges are the same if they have the same start and end nodes, directedness, and label.
             /// If the node isn't directed, the the order of start and end nodes doesn't matter.
             /// Attributes are ignored for purposes of equality.
             /// </summary>
@@ -460,7 +460,7 @@ namespace GraphVisualizing
 
             /// <summary>
             /// True if obj is an edge that is == to this edge
-            /// Edges are the same if they have the same start and end nodes, directedness, and label.
+            /// AllPossibleEdges are the same if they have the same start and end nodes, directedness, and label.
             /// If the node isn't directed, the the order of start and end nodes doesn't matter.
             /// Attributes are ignored for purposes of equality.
             /// </summary>

@@ -74,7 +74,7 @@ namespace Preconditions
     {
         public override int Evaluate(Card card)
         {
-            return Player.GetReputation();
+            return Player.GetPlayerStat(Player.Stat.Reputation);
         }
     }
     
@@ -82,7 +82,7 @@ namespace Preconditions
     {
         public override int Evaluate(Card card)
         {
-            return Player.GetMoney();
+            return Player.GetPlayerStat(Player.Stat.Money);
         }
     }
     
@@ -90,7 +90,7 @@ namespace Preconditions
     {
         public override int Evaluate(Card card)
         {
-            return Player.GetHealth();
+            return Player.GetPlayerStat(Player.Stat.Health);
         }
     }
 

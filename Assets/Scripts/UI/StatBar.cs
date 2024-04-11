@@ -47,18 +47,13 @@ namespace UI
             _animator = GetComponent<Animator>();
             
             _currentValue = randomizeStartValue ? Random.Range(minRandomStartValue, maxRandomStartValue) : maxValue;
+            Player.SetPlayerStat(stat, _currentValue);
             
             dot.color = new Color(dot.color.r, dot.color.g, dot.color.b, 0);
 
             GameEvent.OnChoiceHover += UpdateDot;
             GameEvent.OnChoiceMade += UpdateBar;
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public int GetValue() => _currentValue;
 
         /// <summary>
         /// Fades the dot above the stat bar in or out depending on whether the stat corresponding to this stat bar is

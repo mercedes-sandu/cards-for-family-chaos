@@ -1,5 +1,5 @@
-﻿using CCSS;
-using UI;
+﻿using System;
+using CCSS;
 using UnityEngine;
 using Utility;
 
@@ -7,11 +7,9 @@ namespace GameSetup
 {
     public class Player : MonoBehaviour
     {
-        public static string PlayerRole = "[[P]]";
-        
-        [SerializeField] private StatBar reputationBar;
-        [SerializeField] private StatBar moneyBar;
-        [SerializeField] private StatBar healthBar;
+        public const string PlayerRole = "[[P]]";
+        public static Character PlayerCharacter;
+        public static bool PlayerCharacterFamilyOne; // todo: why did i need this?
 
         private static int _reputation;
         private static int _money;
@@ -29,10 +27,6 @@ namespace GameSetup
         /// </summary>
         private void Start()
         {
-            _reputation = reputationBar.GetValue();
-            _money = moneyBar.GetValue();
-            _health = healthBar.GetValue();
-            
             GameEvent.OnChoiceMade += UpdateStats;
         }
 
@@ -48,21 +42,40 @@ namespace GameSetup
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="stat"></param>
         /// <returns></returns>
-        public static int GetReputation() => _reputation;
-        
+        public static int GetPlayerStat(Stat stat) => stat switch
+        {
+            Stat.Reputation => _reputation,
+            Stat.Money => _money,
+            Stat.Health => _health,
+            _ => throw new ArgumentOutOfRangeException(nameof(stat), stat, "Tried to get invalid player stat.")
+        };
+
         /// <summary>
         /// 
         /// </summary>
-        /// <returns></returns>
-        public static int GetMoney() => _money;
-        
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public static int GetHealth() => _health;
-        
+        /// <param name="stat"></param>
+        /// <param name="value"></param>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public static void SetPlayerStat(Stat stat, int value)
+        {
+            switch (stat)
+            {
+                case Stat.Reputation:
+                    _reputation = value;
+                    break;
+                case Stat.Money:
+                    _money = value;
+                    break;
+                case Stat.Health:
+                    _health = value;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(stat), stat, "Tried to set invalid player stat.");
+            }
+        }
+
         /// <summary>
         /// 
         /// </summary>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CatSAT.SAT;
 using CCSS;
 using GameSetup;
@@ -54,7 +55,7 @@ namespace Utility
             EdgesAndInformation = new Dictionary<(Character, Character), EdgeInformation>();
             AllCharacters = new HashSet<Character>();
 
-            foreach (EdgeProposition edge in family.Edges.Values)
+            foreach (EdgeProposition edge in family.EdgesInSolution.Values)
             {
                 Character characterOne = family.Characters[edge.SourceVertex];
                 Character characterTwo = family.Characters[edge.DestinationVertex];
@@ -63,8 +64,10 @@ namespace Utility
                     (float)Math.Round(Random.Range(-1f, 1f), 2));
                 AddEdge(characterOne, characterTwo, affinityPair);
             }
-
-            foreach (Character character in family.Characters.Values)
+            
+            Debug.Log(EdgesAndInformation);
+            
+            foreach (var character in family.Characters.Values.Where(character => character != Player.PlayerCharacter))
             {
                 AllCharacters.Add(character);
             }
@@ -81,7 +84,8 @@ namespace Utility
         /// <param name="affinityPair"></param>
         private void AddEdge(Character characterOne, Character characterTwo, AffinityPair affinityPair)
         {
-            bool firstOrderAdd = EdgesAndInformation.TryAdd((characterOne, characterTwo), new EdgeInformation(affinityPair));
+            bool firstOrderAdd =
+                EdgesAndInformation.TryAdd((characterOne, characterTwo), new EdgeInformation(affinityPair));
 
             if (firstOrderAdd) return;
             EdgesAndInformation.TryAdd((characterTwo, characterOne), new EdgeInformation(affinityPair));
@@ -144,6 +148,8 @@ namespace Utility
                 {
                     AddEdge(characterOne, characterTwo, new AffinityPair(edgeModifier.PositiveModifier,
                         edgeModifier.NegativeModifier));
+                    Debug.Log(
+                        $"Added edge between {characterOne.FirstName} and {characterTwo.FirstName} with positive affinity {edgeModifier.PositiveModifier} and negative affinity {edgeModifier.NegativeModifier}");
                 }
                 else
                 {

@@ -16,7 +16,8 @@ namespace GameSetup
 
         private Problem _problem;
         private Graph _graph;
-        public Dictionary<ushort, EdgeProposition> Edges;
+        private Dictionary<ushort, EdgeProposition> _allPossibleEdges;
+        public Dictionary<ushort, EdgeProposition> EdgesInSolution;
         private Solution _solution;
         private GraphViz<Character> _graphViz;
         public Dictionary<int, Character> Characters;
@@ -41,10 +42,17 @@ namespace GameSetup
             _graph = new Graph(_problem, _size);
             _graph.Connected();
             _graph.Density(minDensity, maxDensity);
-            Edges = _graph.SATVariableToEdge;
+            _allPossibleEdges = _graph.SATVariableToEdge;
             _solution = _problem.Solve();
+
+            EdgesInSolution = new Dictionary<ushort, EdgeProposition>();
+            foreach ((ushort index, EdgeProposition edge) in _graph.SATVariableToEdge)
+            {
+                if (_solution[edge]) EdgesInSolution.TryAdd(index, edge);
+            }
+
             Characters = new Dictionary<int, Character>();
-            
+
             _isFamilyOne = isFamilyOne;
 
             _graphViz = new GraphViz<Character>();
@@ -74,16 +82,19 @@ namespace GameSetup
 
             // to address relationship types, use generation numbers
 
-            Edges = new Dictionary<ushort, EdgeProposition>();
-            foreach (var (index, edge) in familyOne.Edges)
+            _allPossibleEdges = new Dictionary<ushort, EdgeProposition>();
+            EdgesInSolution = new Dictionary<ushort, EdgeProposition>();
+            foreach ((ushort index, EdgeProposition edge) in familyOne._allPossibleEdges)
             {
-                Edges.TryAdd(index, edge);
+                _allPossibleEdges.TryAdd(index, edge);
+                if (familyOne._solution[edge]) EdgesInSolution.TryAdd(index, edge);
             }
 
-            ushort indexOffset = (ushort)familyOne.Edges.Count;
-            foreach (var (index, edge) in familyTwo.Edges)
+            ushort indexOffset = (ushort)familyOne._allPossibleEdges.Count;
+            foreach ((ushort index, EdgeProposition edge) in familyTwo._allPossibleEdges)
             {
-                Edges.TryAdd((ushort)(index + indexOffset), edge);
+                _allPossibleEdges.TryAdd((ushort)(index + indexOffset), edge);
+                if (familyTwo._solution[edge]) EdgesInSolution.TryAdd((ushort)(index + indexOffset), edge);
             }
         }
 
@@ -100,7 +111,7 @@ namespace GameSetup
             }
 
             // todo: is there a way to specify which node styles to use for which nodes?
-            foreach (var (index, edge) in Edges.Where(edge => _solution[edge.Value]))
+            foreach (var (index, edge) in EdgesInSolution)
             {
                 _graphViz.AddEdge(new GraphViz<Character>.Edge(Characters[edge.SourceVertex],
                     Characters[edge.DestinationVertex]));
@@ -123,29 +134,19 @@ namespace GameSetup
             {
                 Characters.Add(index + familyOne._size, character);
             }
-            
-            foreach (var edge in familyOne.Edges.Values.Where(edge => familyOne._solution[edge]))
+
+            foreach (var edge in familyOne.EdgesInSolution.Values)
             {
                 _graphViz.AddEdge(new GraphViz<Character>.Edge(Characters[edge.SourceVertex],
                     Characters[edge.DestinationVertex]));
             }
-            
-            foreach (var edge in familyTwo.Edges.Values.Where(edge => familyTwo._solution[edge]))
+
+            foreach (var edge in familyTwo.EdgesInSolution.Values)
             {
                 _graphViz.AddEdge(new GraphViz<Character>.Edge(Characters[edge.SourceVertex + familyOne._size],
                     Characters[edge.DestinationVertex + familyOne._size]));
             }
         }
-
-        // todo: do i need this?
-        /// <summary>
-        /// Returns the dictionary of edges in the graph representing the family.
-        /// NOTE: If this is of a single family, then all edges (whether actually present in the solution or not) are
-        /// included in the dictionary. If this is of a combined family, then only the edges present in the solution are
-        /// included in the dictionary.
-        /// </summary>
-        /// <returns></returns>
-        public Dictionary<ushort, EdgeProposition> GetEdges() => Edges;
 
         /// <summary>
         /// Shows the graph in the GraphVisualizer canvas.
@@ -162,13 +163,14 @@ namespace GameSetup
         {
             if (_solution == null)
             {
-                Debug.Log(_surname + " Families: \n" + Edges.Aggregate("", (current, edge) => current + edge.Key +
+                Debug.Log(_surname + " Families: \n" + EdgesInSolution.Aggregate("", (current, edge) => current +
+                    edge.Key +
                     ": " +
                     edge.Value.SourceVertex + "--" + edge.Value.DestinationVertex + "\n"));
             }
             else
             {
-                Debug.Log(_surname + " Family: \n" + Edges.Where(edge => _solution[edge.Value]).Aggregate("",
+                Debug.Log(_surname + " Family: \n" + EdgesInSolution.Aggregate("",
                     (current, edge) => current + edge.Key + ": " + edge.Value.SourceVertex + "--" +
                                        edge.Value.DestinationVertex + "\n"));
             }

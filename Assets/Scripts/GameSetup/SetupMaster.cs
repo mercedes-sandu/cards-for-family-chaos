@@ -17,10 +17,6 @@ namespace GameSetup
         // character generation
         public static Ontology Ontology;
         
-        // player information
-        public static Character PlayerCharacter;
-        public static bool PlayerCharacterFamilyOne;
-        
         // variables for family generation
         [SerializeField] private int minFamilySize;
         [SerializeField] private int maxFamilySize;

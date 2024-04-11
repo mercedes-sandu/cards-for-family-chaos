@@ -69,8 +69,9 @@ namespace Utility
                 Dictionary<string, Character> roleToCharacter = new Dictionary<string, Character>();
                 for (int i = 0; i < cardTemplate.NumRoles; i++)
                 {
-                    roleToCharacter[cardTemplate.Roles[i]] = currentCombination[i];
+                    roleToCharacter.TryAdd(cardTemplate.Roles[i], currentCombination[i]);
                 }
+                roleToCharacter.TryAdd(Player.PlayerRole, Player.PlayerCharacter);
 
                 Card newCard = new Card(cardTemplate, roleToCharacter);
                 _allPossibleCards.Add(newCard);

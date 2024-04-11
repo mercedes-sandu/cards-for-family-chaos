@@ -129,8 +129,8 @@ namespace UI
         /// </summary>
         public void PlayAsButtonPressed()
         {
-            SetupMaster.PlayerCharacter = _currentPlayerCharacter;
-            SetupMaster.PlayerCharacterFamilyOne = _currentPlayerFamilyOne;
+            Player.PlayerCharacter = _currentPlayerCharacter;
+            Player.PlayerCharacterFamilyOne = _currentPlayerFamilyOne;
             SceneManager.LoadScene("MainScene");
         }
     }
