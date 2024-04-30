@@ -1,6 +1,8 @@
 ﻿using System;
 using GameSetup;
 using Newtonsoft.Json;
+using Preconditions;
+using UnityEngine;
 
 namespace CCSS
 {
@@ -12,11 +14,12 @@ namespace CCSS
         public string Scenario;
         public string[] Roles;
         public Choice[] Choices;
-        // todo: will have list of preconditions.. need subtypes
+        public Precondition[] Preconditions;
+
         // enable Type Name Handling and pass that to the deserializer
 
         [JsonConstructor]
-        public CardTemplate(Guid id, int numRoles, string scenario, string[] roles, Choice[] choices)
+        public CardTemplate(Guid id, int numRoles, string scenario, string[] roles, Choice[] choices, Precondition[] preconditions)
         {
             ID = id;
             NumRoles = numRoles;

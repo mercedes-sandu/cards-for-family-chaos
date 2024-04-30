@@ -91,6 +91,7 @@ namespace UI
             if (statModifier == 0) return;
 
             _currentValue = Mathf.Clamp(_currentValue + statModifier, minValue, maxValue);
+            Player.SetPlayerStat(stat, _currentValue);
             StartCoroutine(MoveBar());
         }
 
@@ -129,6 +130,8 @@ namespace UI
                 bar.fillAmount = Mathf.Lerp(startValue, endValue, time / barMoveTime);
                 yield return null;
             }
+            
+            // todo: check if current value reaches minimum for end game
         }
 
         /// <summary>

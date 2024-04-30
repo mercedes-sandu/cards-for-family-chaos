@@ -190,19 +190,19 @@ namespace Preconditions
 
     public class HasMet : Precondition
     {
-        private readonly CharacterExpression _roleOne;
-        private readonly CharacterExpression _roleTwo;
+        public readonly CharacterExpression RoleOne;
+        public readonly CharacterExpression RoleTwo;
 
         // new HasMet("[[X]]", "[[Y]]")
         public HasMet(CharacterExpression roleOne, CharacterExpression roleTwo)
         {
-            _roleOne = roleOne;
-            _roleTwo = roleTwo;
+            RoleOne = roleOne;
+            RoleTwo = roleTwo;
         }
 
         public override bool Evaluate(Card card)
         {
-            return GameManager.InGameGraph.AreConnected(_roleOne.Evaluate(card), _roleTwo.Evaluate(card));
+            return GameManager.InGameGraph.AreConnected(RoleOne.Evaluate(card), RoleTwo.Evaluate(card));
         }
     }
 

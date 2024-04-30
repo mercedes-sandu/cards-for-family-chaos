@@ -1,7 +1,5 @@
 ﻿using System;
-using CCSS;
 using UnityEngine;
-using Utility;
 
 namespace GameSetup
 {
@@ -20,23 +18,6 @@ namespace GameSetup
             Reputation,
             Money,
             Health
-        }
-
-        /// <summary>
-        /// Subscribes to game events.
-        /// </summary>
-        private void Start()
-        {
-            GameEvent.OnChoiceMade += UpdateStats;
-        }
-
-        /// <summary>
-        /// Updates the player's stats according to which choice they made.
-        /// </summary>
-        /// <param name="choice">The choice made by the player.</param>
-        private void UpdateStats(Choice choice)
-        {
-            
         }
 
         /// <summary>
@@ -75,14 +56,6 @@ namespace GameSetup
                 default:
                     throw new ArgumentOutOfRangeException(nameof(stat), stat, "Tried to set invalid player stat.");
             }
-        }
-
-        /// <summary>
-        /// Unsubscribes from game events.
-        /// </summary>
-        private void OnDestroy()
-        {
-            GameEvent.OnChoiceMade -= UpdateStats;
         }
     }
 }

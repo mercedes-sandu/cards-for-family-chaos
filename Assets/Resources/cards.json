@@ -59,6 +59,13 @@
         ],
         "FollowupCard": ""
       }
+    ],
+    "Preconditions": [
+      {
+        "Type": "HasMet",
+        "RoleOne": "[[X]]",
+        "RoleTwo": "[[P]]"
+      }
     ]
   },
   "1": {
@@ -106,6 +113,13 @@
         ],
         "EdgeModifiers": [],
         "FollowupCard": ""
+      }
+    ],
+    "Preconditions": [
+      {
+        "Type": "HasMet",
+        "RoleOne": "[[X]]",
+        "RoleTwo": "[[P]]"
       }
     ]
   }

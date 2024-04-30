@@ -1,7 +1,9 @@
 using System.Collections;
 using CCSS;
+using GameSetup;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Utility;
 
@@ -17,6 +19,9 @@ namespace UI
         [SerializeField] private int minCompatibilityValue;
         [SerializeField] private int maxCompatibilityValue;
         [SerializeField] private float compatibilityBarMoveTime;
+
+        [SerializeField] private Canvas pauseMenu;
+        [SerializeField] private Canvas familiesMenu;
 
         private int _currentCompatibilityValue;
 
@@ -38,6 +43,8 @@ namespace UI
         private void Awake()
         {
             _compatibilityBarAnimator = compatibilityBar.transform.parent.parent.GetComponent<Animator>();
+            pauseMenu.enabled = false;
+            familiesMenu.enabled = false;
 
             GameEvent.OnCardSelected += UpdateWeek;
             GameEvent.OnChoiceMade += UpdateCompatibilityBar;
@@ -50,6 +57,8 @@ namespace UI
         {
             _currentCompatibilityValue = GameManager.CurrentCompatibility;
             compatibilityBar.fillAmount = (float)_currentCompatibilityValue / maxCompatibilityValue;
+            
+            SetupSceneUI.Instance.SetupAllButtons(SetupMaster.FamilyOneSurname, SetupMaster.FamilyTwoSurname);
         }
 
         /// <summary>
@@ -226,6 +235,8 @@ namespace UI
                 compatibilityBar.fillAmount = Mathf.Lerp(startValue, endValue, time / compatibilityBarMoveTime);
                 yield return null;
             }
+            
+            // todo: check for game over conditions if compatibility hits max
         }
 
         /// <summary>
@@ -233,7 +244,8 @@ namespace UI
         /// </summary>
         public void PauseButton()
         {
-            // todo: do
+            Time.timeScale = 0;
+            pauseMenu.enabled = true;
         }
 
         /// <summary>
@@ -241,7 +253,27 @@ namespace UI
         /// </summary>
         public void FamiliesButton()
         {
-            // todo: do
+            Time.timeScale = 0;
+            familiesMenu.enabled = true;
+        }
+
+        /// <summary>
+        /// Called by the resume button in the pause menu.
+        /// </summary>
+        public void ResumeButton()
+        {
+            Time.timeScale = 1;
+            pauseMenu.enabled = false;
+        }
+
+        /// <summary>
+        /// Called by the quit button in the pause menu.
+        /// </summary>
+        public void QuitButton()
+        {
+            Time.timeScale = 1;
+            SceneManager.LoadScene("StartMenu");
+            
         }
 
         /// <summary>

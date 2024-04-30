@@ -33,6 +33,8 @@ namespace UI
         private Character _currentPlayerCharacter;
         private bool _currentPlayerFamilyOne;
 
+        private Canvas _canvas;
+
         /// <summary>
         /// Sets the instance and gets the button image components for the family tabs. 
         /// </summary>
@@ -53,11 +55,16 @@ namespace UI
                 _familyNameTexts[i] = familyButtons[i].GetComponentInChildren<TextMeshProUGUI>();
             }
 
-            playAsCharacterButton.image.enabled = false;
-            _playAsCharacterButtonText = playAsCharacterButton.GetComponentInChildren<TextMeshProUGUI>();
-            _playAsCharacterButtonText.enabled = false;
+            if (playAsCharacterButton)
+            {
+                playAsCharacterButton.image.enabled = false;
+                _playAsCharacterButtonText = playAsCharacterButton.GetComponentInChildren<TextMeshProUGUI>();
+                _playAsCharacterButtonText.enabled = false;
+            }
 
             characterInformationText.text = "Click on a node to see more information about that character.";
+
+            _canvas = GetComponent<Canvas>();
         }
 
         /// <summary>
@@ -108,11 +115,11 @@ namespace UI
         /// <param name="nodeSelected">The node button pressed by the player.</param>
         public void FamilyMemberNodeSelected(Character characterSelected, bool familyOne, FamilyMemberNode nodeSelected)
         {
-            _playAsCharacterButtonText.text = $"Play as {characterSelected.FirstName} {characterSelected.Surname}";
+            if (playAsCharacterButton) _playAsCharacterButtonText.text = $"Play as {characterSelected.FirstName} {characterSelected.Surname}";
             characterInformationText.text =
                 $"<b>{characterSelected.FirstName} {characterSelected.Surname}</b>\n \nAge: {characterSelected.Age}\nAlignment: {characterSelected.Alignment}\nPersonality Traits: {string.Join(", ", characterSelected.PersonalityTraits)}\nOccupation: {characterSelected.Occupation}";
 
-            if (!playAsCharacterButton.image.enabled)
+            if (playAsCharacterButton && !playAsCharacterButton.image.enabled)
             {
                 playAsCharacterButton.image.enabled = true;
                 _playAsCharacterButtonText.enabled = true;
@@ -134,6 +141,14 @@ namespace UI
             Player.PlayerCharacter = _currentPlayerCharacter;
             Player.PlayerCharacterFamilyOne = _currentPlayerFamilyOne;
             SceneManager.LoadScene("MainScene");
+        }
+
+        /// <summary>
+        /// Called by the close button in the families menu.
+        /// </summary>
+        public void CloseFamiliesMenu()
+        {
+            _canvas.enabled = false;
         }
     }
 }

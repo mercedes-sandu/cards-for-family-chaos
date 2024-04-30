@@ -26,8 +26,8 @@ namespace GameSetup
         // graph generation
         private int _familyOneSize;
         private int _familyTwoSize;
-        private string _familyOneSurname;
-        private string _familyTwoSurname;
+        public static string FamilyOneSurname;
+        public static string FamilyTwoSurname;
         private static Family _familyOne;
         private static Family _familyTwo;
         public static Family CombinedFamily;
@@ -42,8 +42,8 @@ namespace GameSetup
             
             FamilyPreprocessing();
             
-            _familyOne = new Family(_familyOneSize, _familyOneSurname, minGraphDensity, maxGraphDensity, true);
-            _familyTwo = new Family(_familyTwoSize, _familyTwoSurname, minGraphDensity, maxGraphDensity, false);
+            _familyOne = new Family(_familyOneSize, FamilyOneSurname, minGraphDensity, maxGraphDensity, true);
+            _familyTwo = new Family(_familyTwoSize, FamilyTwoSurname, minGraphDensity, maxGraphDensity, false);
             CombinedFamily = new Family(_familyOneSize + _familyTwoSize, _familyOne, _familyTwo);
             
             FileCopier.CheckForCopies(); // todo: remove this line when building because it is already called in start menu
@@ -60,7 +60,7 @@ namespace GameSetup
         /// </summary>
         private void Start()
         {
-            SetupSceneUI.Instance.SetupAllButtons(_familyOneSurname, _familyTwoSurname);
+            SetupSceneUI.Instance.SetupAllButtons(FamilyOneSurname, FamilyTwoSurname);
             ShowGraph(1);
         }
 
@@ -77,9 +77,9 @@ namespace GameSetup
             List<string> surnames = 
                 Resources.Load<TextAsset>("Imaginarium/surnames").text.Split('\n').ToList();
             int familyOneSurnameIndex = Random.Range(0, surnames.Count);
-            _familyOneSurname = surnames[familyOneSurnameIndex].Replace("\r", "");
+            FamilyOneSurname = surnames[familyOneSurnameIndex].Replace("\r", "");
             surnames.RemoveAt(familyOneSurnameIndex);
-            _familyTwoSurname = surnames[Random.Range(0, surnames.Count)].Replace("\r", "");
+            FamilyTwoSurname = surnames[Random.Range(0, surnames.Count)].Replace("\r", "");
         }
 
         /// <summary>
